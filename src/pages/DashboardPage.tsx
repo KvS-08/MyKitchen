@@ -1,0 +1,160 @@
+import React from 'react';
+import { ShoppingCart, TrendingUp, Users, DollarSign } from 'lucide-react';
+import { StatCard } from '../components/dashboard/StatCard';
+import { SalesChart } from '../components/dashboard/SalesChart';
+
+export const DashboardPage: React.FC = () => {
+  // Sample data - In real app, would come from API/Supabase
+  const salesData = {
+    labels: ['Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab', 'Dom'],
+    datasets: [
+      {
+        label: 'Esta semana',
+        data: [4500, 5200, 4800, 6200, 7800, 8500, 7200],
+        borderColor: '#0d9488',
+        backgroundColor: 'rgba(13, 148, 136, 0.1)',
+        fill: true,
+        tension: 0.4,
+      },
+      {
+        label: 'Semana pasada',
+        data: [3800, 4800, 4200, 5800, 7200, 7500, 6800],
+        borderColor: '#94a3b8',
+        backgroundColor: 'rgba(148, 163, 184, 0.1)',
+        fill: true,
+        tension: 0.4,
+      },
+    ],
+  };
+
+  return (
+    <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <h1 className="font-bold">Dashboard</h1>
+        <div className="flex gap-2">
+          <select className="input">
+            <option>Hoy</option>
+            <option>Ayer</option>
+            <option>Últimos 7 días</option>
+            <option>Este mes</option>
+          </select>
+          <button className="btn-primary">
+            Actualizar
+          </button>
+        </div>
+      </div>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <StatCard 
+          title="Ventas"
+          value="18,500"
+          prefix="L. "
+          icon={<DollarSign className="h-6 w-6" />}
+          change={12}
+          trend="up"
+        />
+        
+        <StatCard 
+          title="Órdenes"
+          value="32"
+          icon={<ShoppingCart className="h-6 w-6" />}
+          change={8}
+          trend="up"
+        />
+        
+        <StatCard 
+          title="Clientes"
+          value="28"
+          icon={<Users className="h-6 w-6" />}
+          change={-3}
+          trend="down"
+        />
+        
+        <StatCard 
+          title="Ticket Promedio"
+          value="578"
+          prefix="L. "
+          icon={<TrendingUp className="h-6 w-6" />}
+          change={5}
+          trend="up"
+        />
+      </div>
+      
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <div className="lg:col-span-2">
+          <SalesChart data={salesData} />
+        </div>
+        
+        <div className="card">
+          <h3 className="text-lg font-semibold mb-4">Platos Más Vendidos</h3>
+          <ul className="space-y-3">
+            {[
+              { name: 'Pollo a la Parrilla', count: 24, amount: 4800 },
+              { name: 'Hamburguesa Especial', count: 18, amount: 3600 },
+              { name: 'Pasta Alfredo', count: 16, amount: 3200 },
+              { name: 'Ensalada César', count: 12, amount: 1800 },
+              { name: 'Tacos de Carnitas', count: 10, amount: 1500 },
+            ].map((item, index) => (
+              <li key={index} className="flex items-center justify-between">
+                <div>
+                  <p className="font-medium">{item.name}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">{item.count} unidades</p>
+                </div>
+                <p className="font-semibold">L. {item.amount.toLocaleString()}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+      
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div className="card">
+          <h3 className="text-lg font-semibold mb-4">Ventas por Categoría</h3>
+          <ul className="space-y-3">
+            {[
+              { name: 'Platos Principales', amount: 8500, percentage: 45 },
+              { name: 'Entradas', amount: 4200, percentage: 22 },
+              { name: 'Bebidas', amount: 3600, percentage: 19 },
+              { name: 'Postres', amount: 2200, percentage: 14 },
+            ].map((item, index) => (
+              <li key={index}>
+                <div className="flex justify-between mb-1">
+                  <p className="font-medium">{item.name}</p>
+                  <p className="font-semibold">L. {item.amount.toLocaleString()}</p>
+                </div>
+                <div className="w-full h-2 bg-gray-200 rounded-full dark:bg-gray-700">
+                  <div 
+                    className="h-2 rounded-full bg-primary-500" 
+                    style={{ width: `${item.percentage}%` }}
+                  ></div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+        
+        <div className="card">
+          <h3 className="text-lg font-semibold mb-4">Actividad Reciente</h3>
+          <ul className="space-y-4">
+            {[
+              { time: '14:32', action: 'Nueva orden #3845', amount: 'L. 650', table: 'Mesa 5' },
+              { time: '14:15', action: 'Pago completado #3844', amount: 'L. 820', table: 'Mesa 3' },
+              { time: '13:58', action: 'Orden servida #3843', amount: 'L. 450', table: 'Mesa 7' },
+              { time: '13:45', action: 'Nueva orden #3844', amount: 'L. 820', table: 'Mesa 3' },
+              { time: '13:30', action: 'Pago completado #3842', amount: 'L. 560', table: 'Mesa 2' },
+            ].map((item, index) => (
+              <li key={index} className="flex justify-between">
+                <div>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">{item.time}</p>
+                  <p className="font-medium">{item.action}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">{item.table}</p>
+                </div>
+                <p className="font-semibold">{item.amount}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+};
