@@ -104,7 +104,7 @@ export const SalesChart: React.FC<SalesChartProps> = ({ data }) => {
   };
 
   return (
-    <div className="card h-80">
+    <div className="card h-85">
       <h3 className="text-lg font-semibold mb-4">Tendencia de Ventas</h3>
       <div className="h-64">
         <Line data={data} options={options} />
