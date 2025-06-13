@@ -12,7 +12,7 @@ export const Header: React.FC = () => {
   return (
     <header className={`
       fixed top-0 right-0 z-10 h-16 flex items-center justify-between px-4 border-b bg-white
-      border-gray-200 dark:bg-gray-900 dark:border-gray-800 transition-all
+      border-gray-200 dark:bg-gray-900 dark:border-gray-800 transition-all md:hidden block
       ${collapsed ? 'left-16' : 'left-64'}
     `}>
       <h2 className="text-xl font-semibold">
