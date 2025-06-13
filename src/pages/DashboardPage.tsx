@@ -1,7 +1,9 @@
 import React from 'react';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
-import { ShoppingCart, TrendingUp, Users, DollarSign } from 'lucide-react';
+import { Users } from 'lucide-react';
+import { FaCircleDollarToSlot } from 'react-icons/fa6';
+import { IoTicket } from 'react-icons/io5';
 import { ThemeToggle } from '../components/ui/ThemeToggle';
 import { StatCard } from '../components/dashboard/StatCard';
 import { SalesChart } from '../components/dashboard/SalesChart';
@@ -56,17 +58,19 @@ export const DashboardPage: React.FC = () => {
           title="Ventas"
           value="18,500"
           prefix="L. "
-          icon={<DollarSign className="h-6 w-6" />}
+          icon={<FaCircleDollarToSlot className="h-6 w-6 text-green-500" />}
           change={12}
           trend="up"
+          borderColor="border-green-500"
         />
         
         <StatCard 
-          title="Órdenes"
-          value="32"
-          icon={<ShoppingCart className="h-6 w-6" />}
-          change={8}
-          trend="up"
+          title="Gastos"
+          value="1200"
+          prefix="L. "
+          icon={<FaCircleDollarToSlot className="h-6 w-6 text-red-500" />}
+          change={-5}
+          trend="down"
         />
         
         <StatCard 
@@ -81,9 +85,10 @@ export const DashboardPage: React.FC = () => {
           title="Ticket Promedio"
           value="578"
           prefix="L. "
-          icon={<TrendingUp className="h-6 w-6" />}
+          icon={<IoTicket className="h-6 w-6 text-purple-500" />}
           change={5}
           trend="up"
+          borderColor="border-purple-500"
         />
       </div>
       
