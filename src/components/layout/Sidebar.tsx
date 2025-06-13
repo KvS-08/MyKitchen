@@ -59,7 +59,7 @@ export const Sidebar: React.FC = () => {
     <aside className={`
       fixed left-0 top-0 z-20 h-full bg-white border-r border-gray-200 transition-all
       dark:bg-gray-900 dark:border-gray-800 
-      w-48 hidden md:block
+      w-48
     `}>
       <div className="flex flex-col h-full">
         <div className="flex items-center justify-between h-16 px-4 border-b border-gray-200 dark:border-gray-800">
