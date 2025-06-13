@@ -99,7 +99,7 @@ export const DashboardPage: React.FC = () => {
         
         <div className="card">
           <h3 className="text-lg font-semibold mb-4">Platos Más Vendidos</h3>
-          <ul className="space-y-3">
+          <ul className="space-y-2">
             {[
               { name: 'Pollo a la Parrilla', count: 24, amount: 4800 },
               { name: 'Hamburguesa Especial', count: 18, amount: 3600 },
