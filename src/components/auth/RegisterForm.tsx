@@ -168,7 +168,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onBackToLogin }) => 
 
       </div>
       
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
         {errors.root && (
           <div className="p-3 text-sm text-danger-800 bg-danger-100 rounded-md dark:text-danger-400 dark:bg-danger-900/30">
             {errors.root.message}
@@ -176,7 +176,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onBackToLogin }) => 
         )}
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <div className="space-y-2">
+          <div className="space-y-1">
             <label htmlFor="businessName" className="label">
               Nombre de tu negocio
             </label>
@@ -206,7 +206,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onBackToLogin }) => 
             </div>
           </div>
           
-          <div className="space-y-2">
+          <div className="space-y-1">
             <label htmlFor="ownerName" className="label">
               Tu Nombre Completo
             </label>
