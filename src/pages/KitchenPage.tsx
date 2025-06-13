@@ -122,7 +122,7 @@ export const KitchenPage: React.FC = () => {
   };
   
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 md:ml-32 pt-4 md:pt-0 md:-mt-10">
       <div className="flex justify-between items-center">
         <h1 className="font-bold">Cocina</h1>
         <div className="flex gap-2">
