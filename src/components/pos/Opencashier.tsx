@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { FaTimes } from 'react-icons/fa';
-import { BsCurrencyExchange } from 'react-icons/bs';
 import { GiMoneyStack } from 'react-icons/gi';
 import { useAuth } from '../../hooks/useAuth';
 
@@ -11,29 +10,50 @@ interface OpencashierProps {
 }
 
 const Opencashier: React.FC<OpencashierProps> = ({ isOpen, onClose, onSave }) => {
-  if (!isOpen) return null;
-
-
   const { user } = useAuth();
-  const [cashierDateTime, setCashierDateTime] = useState(new Date().toISOString().slice(0, 16));
+  const [cashierDateTime, setCashierDateTime] = useState('');
   const [cashierName, setCashierName] = useState<string>('');
   const [cashInDrawer, setCashInDrawer] = useState<number | string>('');
 
+  useEffect(() => {
+    if (isOpen) {
+      // Set current date and time when modal opens
+      const now = new Date();
+      const localDateTime = new Date(now.getTime() - now.getTimezoneOffset() * 60000)
+        .toISOString()
+        .slice(0, 16);
+      setCashierDateTime(localDateTime);
+      
+      // Set cashier name from user
+      if (user?.full_name) {
+        setCashierName(user.full_name);
+      }
+      
+      // Reset cash amount
+      setCashInDrawer('');
+    }
+  }, [isOpen, user]);
+
+  if (!isOpen) return null;
+
   const handleOpenCashier = () => {
+    if (!cashierDateTime || !cashierName || !cashInDrawer) {
+      alert('Por favor completa todos los campos');
+      return;
+    }
+
     const data = {
-      fecha: cashierDateTime,
+      fecha: new Date(cashierDateTime).toISOString(),
       cajero: cashierName,
       efectivo_apertura: parseFloat(cashInDrawer as string),
     };
+    
     onSave(data);
     onClose();
+    
+    // Reset form
+    setCashInDrawer('');
   };
-
-  useEffect(() => {
-    if (user?.full_name) {
-      setCashierName(user.full_name);
-    }
-  }, [user]);
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
@@ -44,53 +64,72 @@ const Opencashier: React.FC<OpencashierProps> = ({ isOpen, onClose, onSave }) =>
         >
           <FaTimes size={20} />
         </button>
-        <h2 className="text-2xl font-bold mb-4">Aperturar Caja</h2>
+        
+        <h2 className="text-2xl font-bold mb-4 dark:text-white">Aperturar Caja</h2>
         <hr className="my-4 border-gray-300 dark:border-gray-600" />
 
-             <div className="w-full px-2 mb-4">
-               <label htmlFor="cashierDateTime" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Fecha</label>
-               <input
-                 type="datetime-local"
-                 id="cashierDateTime"
-                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-100 text-gray-800 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 pl-2"
-                 value={cashierDateTime}
-                 onChange={(e) => setCashierDateTime(e.target.value)}
-               />
-             </div>
-             <div className="w-full px-2 mb-4">
-               <label htmlFor="cashierName" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Cajero</label>
-               <input
-                 type="text"
-                 id="cashierName"
-                 placeholder="Nombre del Cajero"
-                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-100 text-gray-800 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 pl-2"
-                 value={cashierName}
-                 onChange={(e) => setCashierName(e.target.value)}
-                 readOnly
-               />
-             </div>
-             <div className="w-full px-2 mb-4">
-               <label htmlFor="cashInDrawer" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Efectivo en Caja</label>
-               <div className="relative mt-1">
-                 <input
-                   type="number"
-                   id="cashInDrawer"
-                   placeholder="0.00"
-                   className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-100 text-gray-800 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 pl-8 pr-2"
-                   value={cashInDrawer}
-                   onChange={(e) => setCashInDrawer(e.target.value)}
-                 />
-                 <GiMoneyStack className="absolute left-2 top-1/2 transform -translate-y-1/2 text-green-500" />
-               </div>
-             </div>
+        <div className="w-full px-2 mb-4">
+          <label htmlFor="cashierDateTime" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            Fecha y Hora
+          </label>
+          <input
+            type="datetime-local"
+            id="cashierDateTime"
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-100 text-gray-800 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 pl-2"
+            value={cashierDateTime}
+            onChange={(e) => setCashierDateTime(e.target.value)}
+          />
+        </div>
+
+        <div className="w-full px-2 mb-4">
+          <label htmlFor="cashierName" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            Cajero
+          </label>
+          <input
+            type="text"
+            id="cashierName"
+            placeholder="Nombre del Cajero"
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-100 text-gray-800 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 pl-2"
+            value={cashierName}
+            onChange={(e) => setCashierName(e.target.value)}
+            readOnly
+          />
+        </div>
+
+        <div className="w-full px-2 mb-4">
+          <label htmlFor="cashInDrawer" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            Efectivo en Caja
+          </label>
+          <div className="relative mt-1">
+            <input
+              type="number"
+              id="cashInDrawer"
+              placeholder="0.00"
+              step="0.01"
+              min="0"
+              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-100 text-gray-800 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 pl-8 pr-2"
+              value={cashInDrawer}
+              onChange={(e) => setCashInDrawer(e.target.value)}
+            />
+            <GiMoneyStack className="absolute left-2 top-1/2 transform -translate-y-1/2 text-green-500" />
+          </div>
+        </div>
+
         <hr className="my-4 border-gray-300 dark:border-gray-600" />
-        <div className="flex justify-end">
-          <a
+        
+        <div className="flex justify-end space-x-3">
+          <button
+            onClick={onClose}
+            className="px-4 py-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+          >
+            Cancelar
+          </button>
+          <button
             onClick={handleOpenCashier}
-            className="text-green-500 cursor-pointer"
+            className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500"
           >
             Aperturar
-          </a>
+          </button>
         </div>
       </div>
     </div>

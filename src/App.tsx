@@ -12,6 +12,7 @@ import { MainLayout } from './components/layout/MainLayout';
 import { LoginPage } from './pages/LoginPage';
 import { DashboardPage } from './pages/DashboardPage';
 import { KitchenPage } from './pages/KitchenPage';
+import PosPage from './pages/PosPage';
 
 // Loading Spinner Component
 const LoadingSpinner: React.FC = () => (
@@ -66,9 +67,9 @@ const AppRoutes: React.FC = () => {
       }>
         <Route path="dashboard" element={<DashboardPage />} />
         <Route path="kitchen" element={<KitchenPage />} />
+        <Route path="pos" element={<PosPage />} />
         
         {/* Add placeholder pages for other routes */}
-        <Route path="pos" element={<div className="p-6"><h1 className="text-2xl font-bold">POS (En desarrollo)</h1></div>} />
         <Route path="accounts" element={<div className="p-6"><h1 className="text-2xl font-bold">Cuentas (En desarrollo)</h1></div>} />
         <Route path="menu" element={<div className="p-6"><h1 className="text-2xl font-bold">Menú (En desarrollo)</h1></div>} />
         <Route path="inventory" element={<div className="p-6"><h1 className="text-2xl font-bold">Inventario (En desarrollo)</h1></div>} />

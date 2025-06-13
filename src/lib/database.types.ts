@@ -458,6 +458,209 @@ export type Database = {
           }
         ]
       }
+      aperturas: {
+        Row: {
+          id: string
+          created_at: string
+          fecha: string
+          cajero: string
+          efectivo_apertura: number
+          venta_total: number | null
+          gastos: number | null
+          utilidad: number | null
+          efectivo_cierre: number | null
+          hora_cierre: string | null
+          estado: string | null
+          business_id: string
+          created_by: string
+        }
+        Insert: {
+          id?: string
+          created_at?: string
+          fecha: string
+          cajero: string
+          efectivo_apertura?: number
+          venta_total?: number | null
+          gastos?: number | null
+          utilidad?: number | null
+          efectivo_cierre?: number | null
+          hora_cierre?: string | null
+          estado?: string | null
+          business_id: string
+          created_by: string
+        }
+        Update: {
+          id?: string
+          created_at?: string
+          fecha?: string
+          cajero?: string
+          efectivo_apertura?: number
+          venta_total?: number | null
+          gastos?: number | null
+          utilidad?: number | null
+          efectivo_cierre?: number | null
+          hora_cierre?: string | null
+          estado?: string | null
+          business_id?: string
+          created_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "aperturas_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "aperturas_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      ventas: {
+        Row: {
+          id: string
+          created_at: string
+          fecha: string
+          cajero: string
+          numero_orden: string
+          tipo_orden: string | null
+          cliente: string | null
+          producto: string
+          notas: string | null
+          estado: string | null
+          valor: number
+          tipo_pago: string | null
+          factura: string | null
+          business_id: string
+          created_by: string
+          apertura_id: string | null
+        }
+        Insert: {
+          id?: string
+          created_at?: string
+          fecha?: string
+          cajero: string
+          numero_orden: string
+          tipo_orden?: string | null
+          cliente?: string | null
+          producto: string
+          notas?: string | null
+          estado?: string | null
+          valor: number
+          tipo_pago?: string | null
+          factura?: string | null
+          business_id: string
+          created_by: string
+          apertura_id?: string | null
+        }
+        Update: {
+          id?: string
+          created_at?: string
+          fecha?: string
+          cajero?: string
+          numero_orden?: string
+          tipo_orden?: string | null
+          cliente?: string | null
+          producto?: string
+          notas?: string | null
+          estado?: string | null
+          valor?: number
+          tipo_pago?: string | null
+          factura?: string | null
+          business_id?: string
+          created_by?: string
+          apertura_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ventas_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ventas_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ventas_apertura_id_fkey"
+            columns: ["apertura_id"]
+            isOneToOne: false
+            referencedRelation: "aperturas"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      gastos: {
+        Row: {
+          id: string
+          created_at: string
+          fecha: string
+          tipo: string
+          detalle: string
+          valor: number
+          estado: string | null
+          business_id: string
+          created_by: string
+          apertura_id: string | null
+        }
+        Insert: {
+          id?: string
+          created_at?: string
+          fecha?: string
+          tipo: string
+          detalle: string
+          valor: number
+          estado?: string | null
+          business_id: string
+          created_by: string
+          apertura_id?: string | null
+        }
+        Update: {
+          id?: string
+          created_at?: string
+          fecha?: string
+          tipo?: string
+          detalle?: string
+          valor?: number
+          estado?: string | null
+          business_id?: string
+          created_by?: string
+          apertura_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "gastos_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "gastos_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "gastos_apertura_id_fkey"
+            columns: ["apertura_id"]
+            isOneToOne: false
+            referencedRelation: "aperturas"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
     }
     Views: {
       [_ in never]: never
