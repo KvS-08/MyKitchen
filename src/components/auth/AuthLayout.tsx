@@ -9,7 +9,7 @@ export const AuthLayout: React.FC = () => {
       <header className="w-full h-16 flex items-center justify-between px-4 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
         <div className="flex items-center space-x-2">
           <ChefHat className="h-8 w-8 text-primary-600 dark:text-primary-400" />
-          <h1 className="text-xl font-bold text-gray-900 dark:text-white">RestaurantOS</h1>
+          <h1 className="text-xl font-bold text-gray-900 dark:text-white">My Kitchen</h1>
         </div>
         <ThemeToggle />
       </header>
@@ -20,7 +20,7 @@ export const AuthLayout: React.FC = () => {
       
       <footer className="w-full py-4 px-6 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
         <div className="text-center text-sm text-gray-600 dark:text-gray-400">
-          &copy; {new Date().getFullYear()} RestaurantOS. Todos los derechos reservados.
+          &copy; {new Date().getFullYear()} My Kitchen. Todos los derechos reservados.
         </div>
       </footer>
     </div>
