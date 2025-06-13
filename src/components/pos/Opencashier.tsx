@@ -70,7 +70,7 @@ const Opencashier: React.FC<OpencashierProps> = ({ isOpen, onClose, onSave }) =>
 
         <div className="w-full px-2 mb-4">
           <label htmlFor="cashierDateTime" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-            Fecha y Hora
+            Fecha
           </label>
           <input
             type="datetime-local"
@@ -119,14 +119,8 @@ const Opencashier: React.FC<OpencashierProps> = ({ isOpen, onClose, onSave }) =>
         
         <div className="flex justify-end space-x-3">
           <button
-            onClick={onClose}
-            className="px-4 py-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
-          >
-            Cancelar
-          </button>
-          <button
             onClick={handleOpenCashier}
-            className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500"
+            className="text-green-500 hover:text-green-500 dark:text-green-400 dark:hover:text-green-400"
           >
             Aperturar
           </button>
