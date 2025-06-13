@@ -108,7 +108,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onShowRegister }) => {
             <input
               id="remember-me"
               type="checkbox"
-              className="h-4 w-4 rounded border-green-300 text-primary-600 focus:ring-primary-500"
+              className="h-4 w-4 rounded border-green-300 text-green-600 focus:ring-green-500"
               disabled={loading}
             />
             <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700 dark:text-gray-300">
