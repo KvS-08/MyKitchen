@@ -1,4 +1,7 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
+import { format } from 'date-fns';
+import { es } from 'date-fns/locale';
 import { ShoppingCart, TrendingUp, Users, DollarSign } from 'lucide-react';
 import { StatCard } from '../components/dashboard/StatCard';
 import { SalesChart } from '../components/dashboard/SalesChart';
@@ -28,9 +31,11 @@ export const DashboardPage: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6 md:ml-32 -mt-10">
+    <div className="space-y-6 md:ml-32 pt-0 md:pt-0 md:-mt-10">
       <div className="flex justify-between items-center">
-        <h1 className="font-bold">Dashboard</h1>
+        <h1 className="font-bold">
+          {format(new Date(), 'EEEE, dd \'De\' MMMM \'De\' yyyy', { locale: es })}
+        </h1>
         <div className="flex gap-2">
           <select className="input">
             <option>Hoy</option>
