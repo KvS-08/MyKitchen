@@ -4,6 +4,7 @@ import { es } from 'date-fns/locale';
 import { Users } from 'lucide-react';
 import { FaCircleDollarToSlot } from 'react-icons/fa6';
 import { IoTicket } from 'react-icons/io5';
+import { PiBowlFoodBold } from 'react-icons/pi';
 import { ThemeToggle } from '../components/ui/ThemeToggle';
 import { StatCard } from '../components/dashboard/StatCard';
 import { SalesChart } from '../components/dashboard/SalesChart';
@@ -98,7 +99,10 @@ export const DashboardPage: React.FC = () => {
         </div>
         
         <div className="card">
-          <h3 className="text-lg font-semibold mb-4">Platos Más Vendidos</h3>
+          <h3 className="text-lg font-semibold mb-4 flex items-center justify-between">
+            <span>Platos Más Vendidos</span>
+            <PiBowlFoodBold className="h-5 w-5 text-orange-500" />
+          </h3>
           <ul className="space-y-2">
             {[
               { name: 'Pollo a la Parrilla', count: 24, amount: 4800 },
