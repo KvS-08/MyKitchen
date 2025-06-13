@@ -14,7 +14,7 @@ export const MainLayout: React.FC = () => {
       
       <main className={`
         pt-16 pb-8 px-6 transition-all overflow-y-auto
-        ${collapsed ? 'ml-16' : 'ml-64'}
+        ${collapsed ? 'ml-16 md:ml-16' : 'ml-0 md:ml-64'}
       `}>
         <div className="max-w-7xl mx-auto">
           <Outlet />
