@@ -33,17 +33,14 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onShowRegister }) => {
   };
   
   return (
-    <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+    <div className="w-full max-w-sm p-8 space-y-6 bg-white rounded-lg shadow-md dark:bg-gray-800">
       <div className="text-center">
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-          RestaurantOS
+          Iniciar Sesión
         </h1>
-        <p className="mt-2 text-gray-600 dark:text-gray-400">
-          Inicia sesión en tu cuenta
-        </p>
       </div>
       
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         {errors.root && (
           <div className="p-3 text-sm text-danger-800 bg-danger-100 rounded-md dark:text-danger-400 dark:bg-danger-900/30">
             {errors.root.message}
@@ -124,33 +121,31 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onShowRegister }) => {
           </a>
         </div>
         
-        <button
-          type="submit"
-          className="btn-primary w-full flex items-center justify-center"
-          disabled={loading}
-        >
-          {loading ? (
-            <>
-              <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent mr-2"></div>
-              Iniciando sesión...
-            </>
-          ) : (
-            'Iniciar Sesión'
-          )}
-        </button>
-      </form>
-      
-      <div className="text-center text-sm">
-        <p className="text-gray-600 dark:text-gray-400">
-          ¿No tienes una cuenta?{' '}
-          <button 
+        <div className="flex gap-4">
+          <button
+            type="button"
             onClick={onShowRegister}
-            className="font-medium text-primary-600 hover:text-primary-500 dark:text-primary-400 underline"
+            className="btn-secondary w-full flex items-center justify-center"
+            disabled={loading}
           >
             Regístrate
           </button>
-        </p>
-      </div>
+          <button
+            type="submit"
+            className="btn-primary w-full flex items-center justify-center"
+            disabled={loading}
+          >
+            {loading ? (
+              <>
+                <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent mr-2"></div>
+                Iniciando sesión...
+              </>
+            ) : (
+              'Iniciar Sesión'
+            )}
+          </button>
+        </div>
+      </form>
     </div>
   );
 };
