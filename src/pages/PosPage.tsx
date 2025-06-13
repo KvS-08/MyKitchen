@@ -196,7 +196,7 @@ const PosPage: React.FC = () => {
   };
 
   return (
-    <div className="mt-3 lg:-mt-10">
+    <div className="space-y-6 md:ml-32 -mt-10">
       <div className="flex justify-between items-center mb-6">
         <h1 className="font-bold text-xl lg:text-3xl">
           {(() => {
