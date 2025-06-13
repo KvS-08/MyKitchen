@@ -13,6 +13,7 @@ import { LoginPage } from './pages/LoginPage';
 import { DashboardPage } from './pages/DashboardPage';
 import { KitchenPage } from './pages/KitchenPage';
 import PosPage from './pages/PosPage';
+import OptionsPage from './pages/OptionsPage';
 
 // Loading Spinner Component
 const LoadingSpinner: React.FC = () => (
