@@ -28,7 +28,7 @@ export const DashboardPage: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 md:ml-32 -mt-10">
       <div className="flex justify-between items-center">
         <h1 className="font-bold">Dashboard</h1>
         <div className="flex gap-2">
