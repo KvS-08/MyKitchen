@@ -1,8 +1,8 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { ShoppingCart, TrendingUp, Users, DollarSign } from 'lucide-react';
+import { ThemeToggle } from '../components/ui/ThemeToggle';
 import { StatCard } from '../components/dashboard/StatCard';
 import { SalesChart } from '../components/dashboard/SalesChart';
 
@@ -31,22 +31,24 @@ export const DashboardPage: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6 md:ml-32 pt-0 md:pt-0 md:-mt-10">
+    <div className="space-y-6 md:ml-32 pt-4 md:pt-0 md:-mt-10">
       <div className="flex justify-between items-center">
-        <h1 className="font-bold">
-          {format(new Date(), 'EEEE, dd \'De\' MMMM \'De\' yyyy', { locale: es })}
+        <h1 className="text-xl md:text-3xl font-bold">
+          {(() => {
+            const formattedDate = format(new Date(), 'EEEE, dd \'de\' MMMM \'de\' yyyy', { locale: es });
+            const parts = formattedDate.split(',');
+            if (parts.length > 0) {
+              const day = parts[0];
+              const capitalizedDay = day.charAt(0).toUpperCase() + day.slice(1);
+              return [capitalizedDay, ...parts.slice(1)].join(',');
+            }
+            return formattedDate; // Fallback if split fails
+          })()}
         </h1>
-        <div className="flex gap-2">
-          <select className="input">
-            <option>Hoy</option>
-            <option>Ayer</option>
-            <option>Últimos 7 días</option>
-            <option>Este mes</option>
-          </select>
-          <button className="btn-primary">
-            Actualizar
-          </button>
+        <div className="hidden md:block">
+          <ThemeToggle />
         </div>
+
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
