@@ -53,12 +53,12 @@ export const DashboardPage: React.FC = () => {
 
       </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard 
           title="Ventas"
           value="18,500"
           prefix="L. "
-          icon={<FaCircleDollarToSlot className="h-6 w-6 text-green-500" />}
+          icon={<FaCircleDollarToSlot className="h-3 w-3 sm:h-6 sm:w-6 text-green-500" />}
           change={12}
           trend="up"
           borderColor="border-green-500"
@@ -68,7 +68,7 @@ export const DashboardPage: React.FC = () => {
           title="Gastos"
           value="1200"
           prefix="L. "
-          icon={<FaCircleDollarToSlot className="h-6 w-6 text-red-500" />}
+          icon={<FaCircleDollarToSlot className="h-3 w-3 sm:h-6 sm:w-6 text-red-500" />}
           change={-5}
           trend="down"
         />
@@ -76,7 +76,7 @@ export const DashboardPage: React.FC = () => {
         <StatCard 
           title="Clientes"
           value="28"
-          icon={<Users className="h-6 w-6" />}
+          icon={<Users className="h-3 w-3 sm:h-6 sm:w-6" />}
           change={-3}
           trend="down"
         />
@@ -85,7 +85,7 @@ export const DashboardPage: React.FC = () => {
           title="Ticket Promedio"
           value="578"
           prefix="L. "
-          icon={<IoTicket className="h-6 w-6 text-purple-500" />}
+          icon={<IoTicket className="h-3 w-3 sm:h-6 sm:w-6 text-purple-500" />}
           change={5}
           trend="up"
           borderColor="border-purple-500"
@@ -119,54 +119,6 @@ export const DashboardPage: React.FC = () => {
         </div>
       </div>
       
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <div className="card">
-          <h3 className="text-lg font-semibold mb-4">Ventas por Categoría</h3>
-          <ul className="space-y-3">
-            {[
-              { name: 'Platos Principales', amount: 8500, percentage: 45 },
-              { name: 'Entradas', amount: 4200, percentage: 22 },
-              { name: 'Bebidas', amount: 3600, percentage: 19 },
-              { name: 'Postres', amount: 2200, percentage: 14 },
-            ].map((item, index) => (
-              <li key={index}>
-                <div className="flex justify-between mb-1">
-                  <p className="font-medium">{item.name}</p>
-                  <p className="font-semibold">L. {item.amount.toLocaleString()}</p>
-                </div>
-                <div className="w-full h-2 bg-gray-200 rounded-full dark:bg-gray-700">
-                  <div 
-                    className="h-2 rounded-full bg-primary-500" 
-                    style={{ width: `${item.percentage}%` }}
-                  ></div>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
-        
-        <div className="card">
-          <h3 className="text-lg font-semibold mb-4">Actividad Reciente</h3>
-          <ul className="space-y-4">
-            {[
-              { time: '14:32', action: 'Nueva orden #3845', amount: 'L. 650', table: 'Mesa 5' },
-              { time: '14:15', action: 'Pago completado #3844', amount: 'L. 820', table: 'Mesa 3' },
-              { time: '13:58', action: 'Orden servida #3843', amount: 'L. 450', table: 'Mesa 7' },
-              { time: '13:45', action: 'Nueva orden #3844', amount: 'L. 820', table: 'Mesa 3' },
-              { time: '13:30', action: 'Pago completado #3842', amount: 'L. 560', table: 'Mesa 2' },
-            ].map((item, index) => (
-              <li key={index} className="flex justify-between">
-                <div>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">{item.time}</p>
-                  <p className="font-medium">{item.action}</p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">{item.table}</p>
-                </div>
-                <p className="font-semibold">{item.amount}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
     </div>
   );
 };
