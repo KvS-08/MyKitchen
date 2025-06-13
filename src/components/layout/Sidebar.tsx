@@ -1,20 +1,17 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { 
-  LayoutDashboard, 
-  ShoppingCart, 
-  Clipboard, 
-  ChefHat, 
-  Menu, 
-  PackageOpen, 
-  BarChart3, 
-  ClipboardList,
-  Settings,
-  Building2, 
-  LogOut,
+import {
   ChevronLeft,
-  ChevronRight 
+  ChevronRight,
+  LogOut,
+  Building2,
+  ChefHat
 } from 'lucide-react';
+import { MdDashboardCustomize } from 'react-icons/md';
+import { TbCashRegister } from 'react-icons/tb';
+import { IoWallet, IoSettingsSharp } from 'react-icons/io5';
+import { FaBoxesPacking, FaChartColumn } from 'react-icons/fa6';
+import { BsFillMenuButtonWideFill } from 'react-icons/bs';
 import { useAuth } from '../../hooks/useAuth';
 import { useSidebarStore } from '../../stores/sidebarStore';
 
@@ -43,7 +40,7 @@ const NavItem = ({
         }
       `}
     >
-      <Icon className="h-5 w-5 flex-shrink-0" />
+      <Icon className="h-6 w-6 flex-shrink-0" />
       {!collapsed && <span>{label}</span>}
     </NavLink>
   );
@@ -85,12 +82,12 @@ export const Sidebar: React.FC = () => {
         </div>
         
         <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
-          <NavItem to="/" icon={LayoutDashboard} label="Dashboard" end />
+          <NavItem to="/" icon={MdDashboardCustomize} label="Dashboard" end />
           
           {(isAdmin || isCashier) && (
             <>
-              <NavItem to="/pos" icon={ShoppingCart} label="POS" />
-              <NavItem to="/accounts" icon={Clipboard} label="Cuentas" />
+              <NavItem to="/pos" icon={TbCashRegister} label="POS" />
+              <NavItem to="/accounts" icon={IoWallet} label="Cuentas" />
             </>
           )}
           
@@ -100,11 +97,11 @@ export const Sidebar: React.FC = () => {
           
           {isAdmin && (
             <>
-              <NavItem to="/menu" icon={Menu} label="Menú" />
-              <NavItem to="/inventory" icon={PackageOpen} label="Inventario" />
-              <NavItem to="/reports" icon={BarChart3} label="Reportes" />
-              <NavItem to="/orders" icon={ClipboardList} label="Órdenes" />
-              <NavItem to="/settings" icon={Settings} label="Opciones" />
+              <NavItem to="/menu" icon={BsFillMenuButtonWideFill} label="Menú" />
+              <NavItem to="/inventory" icon={FaBoxesPacking} label="Inventario" />
+              <NavItem to="/reports" icon={FaChartColumn} label="Reportes" />
+              <NavItem to="/orders" icon={BsFillMenuButtonWideFill} label="Órdenes" />
+              <NavItem to="/settings" icon={IoSettingsSharp} label="Opciones" />
             </>
           )}
           
