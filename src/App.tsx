@@ -76,7 +76,7 @@ const AppRoutes: React.FC = () => {
         <Route path="inventory" element={<div className="p-6"><h1 className="text-2xl font-bold">Inventario (En desarrollo)</h1></div>} />
         <Route path="reports" element={<div className="p-6"><h1 className="text-2xl font-bold">Reportes (En desarrollo)</h1></div>} />
         <Route path="orders" element={<div className="p-6"><h1 className="text-2xl font-bold">Órdenes (En desarrollo)</h1></div>} />
-        <Route path="settings" element={<div className="p-6"><h1 className="text-2xl font-        <Route path="settings" element={<OptionsPage />} />
+        <Route path="settings" element={<OptionsPage />} />
         <Route path="businesses" element={<div className="p-6"><h1 className="text-2xl font-bold">Negocios (En desarrollo)</h1></div>} />
       </Route>
       
