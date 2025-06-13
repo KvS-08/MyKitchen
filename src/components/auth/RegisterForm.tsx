@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Building2, User, Mail, Phone, ArrowLeft } from 'lucide-react';
+import { Building2, User, Mail, Phone, ArrowLeft, Lock } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import toast from 'react-hot-toast';
 
@@ -19,16 +19,16 @@ interface RegisterFormProps {
 }
 
 const COUNTRY_CODES = [
-  { code: '+504', country: 'Honduras', flag: '🇭🇳' },
-  { code: '+1', country: 'Estados Unidos', flag: '🇺🇸' },
-  { code: '+52', country: 'México', flag: '🇲🇽' },
-  { code: '+503', country: 'El Salvador', flag: '🇸🇻' },
-  { code: '+502', country: 'Guatemala', flag: '🇬🇹' },
-  { code: '+505', country: 'Nicaragua', flag: '🇳🇮' },
-  { code: '+506', country: 'Costa Rica', flag: '🇨🇷' },
-  { code: '+507', country: 'Panamá', flag: '🇵🇦' },
-  { code: '+34', country: 'España', flag: '🇪🇸' },
-  { code: '+57', country: 'Colombia', flag: '🇨🇴' },
+  { code: '+504', country: 'Honduras' },
+  { code: '+1', country: 'Estados Unidos' },
+  { code: '+52', country: 'México' },
+  { code: '+503', country: 'El Salvador' },
+  { code: '+502', country: 'Guatemala' },
+  { code: '+505', country: 'Nicaragua' },
+  { code: '+506', country: 'Costa Rica' },
+  { code: '+507', country: 'Panamá' },
+  { code: '+34', country: 'España' },
+  { code: '+57', country: 'Colombia' },
 ];
 
 export const RegisterForm: React.FC<RegisterFormProps> = ({ onBackToLogin }) => {
@@ -160,233 +160,250 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onBackToLogin }) => 
   };
   
   return (
-    <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+    <div className="w-full max-w-md p-8 space-y-4 bg-white rounded-lg shadow-md dark:bg-gray-800">
       <div className="text-center">
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
           Registra tu Negocio
         </h1>
-        <p className="mt-2 text-gray-600 dark:text-gray-400">
-          Crea tu cuenta y comienza a gestionar tu restaurante
-        </p>
+
       </div>
       
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         {errors.root && (
           <div className="p-3 text-sm text-danger-800 bg-danger-100 rounded-md dark:text-danger-400 dark:bg-danger-900/30">
             {errors.root.message}
           </div>
         )}
         
-        <div className="space-y-2">
-          <label htmlFor="businessName" className="label">
-            Nombre de tu negocio
-          </label>
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-              <Building2 className="h-5 w-5 text-gray-400" />
-            </div>
-            <input
-              id="businessName"
-              type="text"
-              className={`input pl-10 w-full ${errors.businessName ? 'border-red-500' : ''}`}
-              placeholder="Restaurante El Buen Sabor"
-              disabled={loading}
-              {...register('businessName', { 
-                required: 'El nombre del negocio es requerido',
-                minLength: {
-                  value: 2,
-                  message: 'El nombre debe tener al menos 2 caracteres'
-                }
-              })}
-            />
-          </div>
-          {errors.businessName && (
-            <p className="text-xs text-red-500">{errors.businessName.message}</p>
-          )}
-        </div>
-        
-        <div className="space-y-2">
-          <label htmlFor="ownerName" className="label">
-            Nombre del Dueño o Administrador
-          </label>
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-              <User className="h-5 w-5 text-gray-400" />
-            </div>
-            <input
-              id="ownerName"
-              type="text"
-              className={`input pl-10 w-full ${errors.ownerName ? 'border-red-500' : ''}`}
-              placeholder="Juan Pérez"
-              disabled={loading}
-              {...register('ownerName', { 
-                required: 'El nombre del administrador es requerido',
-                minLength: {
-                  value: 2,
-                  message: 'El nombre debe tener al menos 2 caracteres'
-                }
-              })}
-            />
-          </div>
-          {errors.ownerName && (
-            <p className="text-xs text-red-500">{errors.ownerName.message}</p>
-          )}
-        </div>
-        
-        <div className="space-y-2">
-          <label htmlFor="email" className="label">
-            E-mail del Negocio
-          </label>
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-              <Mail className="h-5 w-5 text-gray-400" />
-            </div>
-            <input
-              id="email"
-              type="email"
-              className={`input pl-10 w-full ${errors.email ? 'border-red-500' : ''}`}
-              placeholder="contacto@restaurante.com"
-              disabled={loading}
-              {...register('email', { 
-                required: 'El correo es requerido',
-                pattern: {
-                  value: /\S+@\S+\.\S+/,
-                  message: 'Formato de correo inválido'
-                }
-              })}
-            />
-          </div>
-          {errors.email && (
-            <p className="text-xs text-red-500">{errors.email.message}</p>
-          )}
-        </div>
-        
-        <div className="space-y-2">
-          <label htmlFor="phone" className="label">
-            Número de Teléfono
-          </label>
-          <div className="flex">
-            <select
-              className="input rounded-r-none border-r-0 w-32"
-              disabled={loading}
-              {...register('countryCode', { required: true })}
-            >
-              {COUNTRY_CODES.map((country) => (
-                <option key={country.code} value={country.code}>
-                  {country.flag} {country.code}
-                </option>
-              ))}
-            </select>
-            <div className="relative flex-1">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div className="space-y-2">
+            <label htmlFor="businessName" className="label">
+              Nombre de tu negocio
+            </label>
+            <div className="relative">
               <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                <Phone className="h-5 w-5 text-gray-400" />
+                <Building2 className="h-5 w-5 text-gray-400" />
               </div>
               <input
-                id="phone"
-                type="tel"
-                className={`input pl-10 w-full rounded-l-none ${errors.phone ? 'border-red-500' : ''}`}
-                placeholder="9999-9999"
+                id="businessName"
+                type="text"
+                className={`input pl-10 w-full ${errors.businessName ? 'border-red-500' : ''}`}
+                placeholder="Restaurante El Buen Sabor"
                 disabled={loading}
-                {...register('phone', { 
-                  required: 'El número de teléfono es requerido',
-                  pattern: {
-                    value: /^[0-9-\s]+$/,
-                    message: 'Formato de teléfono inválido'
-                  },
+                {...register('businessName', {
+                  required: 'El nombre del negocio es requerido',
                   minLength: {
-                    value: 8,
-                    message: 'El teléfono debe tener al menos 8 dígitos'
+                    value: 2,
+                    message: 'El nombre debe tener al menos 2 caracteres'
                   }
                 })}
               />
+              {errors.businessName && (
+                <p className="text-sm text-red-500 mt-1">
+                  {errors.businessName.message}
+                </p>
+              )}
             </div>
           </div>
-          {errors.phone && (
-            <p className="text-xs text-red-500">{errors.phone.message}</p>
-          )}
+          
+          <div className="space-y-2">
+            <label htmlFor="ownerName" className="label">
+              Tu Nombre Completo
+            </label>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <User className="h-5 w-5 text-gray-400" />
+              </div>
+              <input
+                id="ownerName"
+                type="text"
+                className={`input pl-10 w-full ${errors.ownerName ? 'border-red-500' : ''}`}
+                placeholder="Juan Pérez"
+                disabled={loading}
+                {...register('ownerName', {
+                  required: 'Tu nombre es requerido',
+                  minLength: {
+                    value: 2,
+                    message: 'El nombre debe tener al menos 2 caracteres'
+                  }
+                })}
+              />
+              {errors.ownerName && (
+                <p className="text-sm text-red-500 mt-1">
+                  {errors.ownerName.message}
+                </p>
+              )}
+            </div>
+          </div>
         </div>
-        
-        <div className="space-y-2">
-          <label htmlFor="password" className="label">
-            Contraseña
-          </label>
-          <input
-            id="password"
-            type="password"
-            className={`input w-full ${errors.password ? 'border-red-500' : ''}`}
-            placeholder="••••••••"
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div className="space-y-2">
+            <label htmlFor="email" className="label">
+              Correo Electrónico
+            </label>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <Mail className="h-5 w-5 text-gray-400" />
+              </div>
+              <input
+                id="email"
+                type="email"
+                className={`input pl-10 w-full ${errors.email ? 'border-red-500' : ''}`}
+                placeholder="correo@ejemplo.com"
+                disabled={loading}
+                {...register('email', {
+                  required: 'El correo electrónico es requerido',
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                    message: 'Formato de correo electrónico inválido'
+                  }
+                })}
+              />
+              {errors.email && (
+                <p className="text-sm text-red-500 mt-1">
+                  {errors.email.message}
+                </p>
+              )}
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <label htmlFor="phone" className="label">
+              Número de Teléfono
+            </label>
+            <div className="flex">
+              <select
+                {...register('countryCode')}
+                className="input rounded-r-none border-r-0 pl-0 w-17"
+                disabled={loading}
+              >
+                {COUNTRY_CODES.map((country) => (
+                  <option key={country.code} value={country.code}>
+                    {country.code}
+                  </option>
+                ))}
+              </select>
+              <div className="relative flex-grow">
+                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                  <Phone className="h-4 w-4 text-gray-400" />
+                </div>
+                <input
+                  id="phone"
+                  type="number"
+                  pattern="[0-9]*"
+                  className={`input pl-8 w-full rounded-l-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${errors.phone ? 'border-red-500' : ''}`}
+                  placeholder="Ej: 9876-5432"
+                  disabled={loading}
+                  {...register('phone', {
+                    required: 'El número de teléfono es requerido',
+                    pattern: {
+                      value: /^\d{8,15}$/,
+                      message: 'Número de teléfono inválido'
+                    }
+                  })}
+                />
+              </div>
+            </div>
+            {errors.phone && (
+              <p className="text-sm text-red-500 mt-1">
+                  {errors.phone.message}
+                </p>
+              )}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <label htmlFor="password" className="label">
+                Contraseña
+              </label>
+              <div className="relative">
+              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <Lock className="h-5 w-5 text-gray-400" />
+              </div>
+              <input
+                id="password"
+                type="password"
+                className={`input pl-10 w-full ${errors.password ? 'border-red-500' : ''}`}
+                placeholder="••••••••"
+                disabled={loading}
+                {...register('password', {
+                  required: 'La contraseña es requerida',
+                  minLength: {
+                    value: 6,
+                    message: 'La contraseña debe tener al menos 6 caracteres'
+                  }
+                })}
+              />
+                {errors.password && (
+                  <p className="text-sm text-red-500 mt-1">
+                    {errors.password.message}
+                  </p>
+                )}
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <label htmlFor="confirmPassword" className="label">
+                Confirmar Contraseña
+              </label>
+              <div className="relative">
+              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <Lock className="h-5 w-5 text-gray-400" />
+              </div>
+              <input
+                id="confirmPassword"
+                type="password"
+                className={`input pl-10 w-full ${errors.confirmPassword ? 'border-red-500' : ''}`}
+                placeholder="••••••••"
+                disabled={loading}
+                {...register('confirmPassword', {
+                  required: 'Confirmar contraseña es requerido',
+                  validate: value =>
+                    value === password || 'Las contraseñas no coinciden'
+                })}
+              />
+                {errors.confirmPassword && (
+                  <p className="text-sm text-red-500 mt-1">
+                    {errors.confirmPassword.message}
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-col sm:flex-row sm:justify-center gap-4">
+            <button
+            type="button"
+            onClick={onBackToLogin}
+            className="btn-secondary w-full flex items-center justify-center"
             disabled={loading}
-            {...register('password', { 
-              required: 'La contraseña es requerida',
-              minLength: {
-                value: 6,
-                message: 'La contraseña debe tener al menos 6 caracteres'
-              }
-            })}
-          />
-          {errors.password && (
-            <p className="text-xs text-red-500">{errors.password.message}</p>
-          )}
-        </div>
-        
-        <div className="space-y-2">
-          <label htmlFor="confirmPassword" className="label">
-            Confirmar Contraseña
-          </label>
-          <input
-            id="confirmPassword"
-            type="password"
-            className={`input w-full ${errors.confirmPassword ? 'border-red-500' : ''}`}
-            placeholder="••••••••"
+          >
+            <ArrowLeft className="h-4 w-4 mr-2" /> Volver al Login
+          </button>
+          <button
+            type="submit"
+            className="btn-primary w-full"
             disabled={loading}
-            {...register('confirmPassword', { 
-              required: 'Confirma tu contraseña',
-              validate: value => value === password || 'Las contraseñas no coinciden'
-            })}
-          />
-          {errors.confirmPassword && (
-            <p className="text-xs text-red-500">{errors.confirmPassword.message}</p>
-          )}
+          >
+            {loading ? 'Registrando...' : 'Registrar Negocio'}
+          </button>
+          </div>
+        </form>
+        
+        <div className="text-center text-sm mt-0">
+          <p className="text-gray-600 dark:text-gray-400">
+            Al registrarte, aceptas nuestros{' '}
+            <a href="#" className="font-medium text-primary-600 hover:text-primary-500 dark:text-primary-400">
+              Términos
+            </a>
+            {' '}y{' '}
+            <a href="#" className="font-medium text-primary-600 hover:text-primary-500 dark:text-primary-400">
+              Políticas.
+            </a>
+          </p>
         </div>
-        
-        <button
-          type="submit"
-          className="btn-primary w-full flex items-center justify-center"
-          disabled={loading}
-        >
-          {loading ? (
-            <>
-              <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent mr-2"></div>
-              Registrando...
-            </>
-          ) : (
-            'Registrar Negocio'
-          )}
-        </button>
-        
-        <button
-          type="button"
-          onClick={onBackToLogin}
-          className="btn-outline w-full flex items-center justify-center"
-          disabled={loading}
-        >
-          <ArrowLeft className="h-4 w-4 mr-2" />
-          Volver al Login
-        </button>
-      </form>
-      
-      <div className="text-center text-sm">
-        <p className="text-gray-600 dark:text-gray-400">
-          Al registrarte, aceptas nuestros{' '}
-          <a href="#" className="font-medium text-primary-600 hover:text-primary-500 dark:text-primary-400">
-            Términos de Servicio
-          </a>
-          {' '}y{' '}
-          <a href="#" className="font-medium text-primary-600 hover:text-primary-500 dark:text-primary-400">
-            Política de Privacidad
-          </a>
-        </p>
       </div>
-    </div>
-  );
-};
+    );
+  };
