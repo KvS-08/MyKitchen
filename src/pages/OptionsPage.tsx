@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronDown, ChevronUp, Clock, DollarSign } from 'lucide-react';
-import { RiAlarmFill } from 'react-icons/ri';
+import { ChevronDown, ChevronUp, CalendarDays, Clock, DollarSign } from 'lucide-react';
 import { MdOutlineDriveFileRenameOutline, MdDelete } from 'react-icons/md';
 import { IoMdBusiness } from 'react-icons/io';
 import { FaMapLocationDot, FaTreeCity } from 'react-icons/fa6';
@@ -802,7 +801,7 @@ const OptionsPage: React.FC = () => {
             className="flex items-center justify-between w-full p-4 text-lg font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-t-lg"
           >
             <div className="flex items-center">
-              <RiAlarmFill className="h-5 w-5 mr-2" />
+              <CalendarDays className="h-5 w-5 mr-2" /> {/* Using CalendarDays as an example icon */}
               <span>Configurar Recordatorios</span>
             </div>
             {isRecordatoriosOpen ? (
