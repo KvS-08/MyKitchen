@@ -33,7 +33,7 @@ const NavItem = ({
       to={to} 
       end={end}
       className={({ isActive }) => `
-        flex items-center gap-3 px-3 py-2 rounded-md text-base transition-colors
+        flex items-center gap-3 px-3 py-3 rounded-md text-base transition-colors
         ${isActive 
           ? 'bg-primary-100 text-primary-800 dark:bg-primary-900/50 dark:text-primary-200' 
           : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800'
@@ -71,10 +71,9 @@ export const Sidebar: React.FC = () => {
 
         </div>
         
-        <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+        <nav className="flex-1 px-3 py-4 space-y-2 overflow-y-auto">
           <NavItem to="/" icon={MdDashboardCustomize} label="Dashboard" end />
-          
-          {(isAdmin || isCashier) && (
+                   {(isAdmin || isCashier) && (
             <>
               <NavItem to="/pos" icon={TbCashRegister} label="POS" />
               <NavItem to="/accounts" icon={IoWallet} label="Cuentas" />
@@ -88,6 +87,7 @@ export const Sidebar: React.FC = () => {
           {isAdmin && (
             <>
               <NavItem to="/menu" icon={BsFillMenuButtonWideFill} label="Menú" />
+
               <NavItem to="/inventory" icon={FaBoxesPacking} label="Inventario" />
               <NavItem to="/reports" icon={FaChartColumn} label="Reportes" />
 
