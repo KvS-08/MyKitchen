@@ -24,8 +24,8 @@ const MenuPage: React.FC = () => {
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-bold">Menú</h2>
         <div className="flex space-x-2">
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Agregar Producto</button>
-          <button className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">Agregar Categoría</button>
+          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1.5 px-1 rounded text-xs md:py-1 md:px-2 md:text-sm">Agregar Producto</button>
+          <button className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-1.5 px-1 rounded text-xs md:py-1 md:px-2 md:text-sm">Agregar Categoría</button>
         </div>
       </div>
       <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md">
