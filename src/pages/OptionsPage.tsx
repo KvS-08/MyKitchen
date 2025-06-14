@@ -800,47 +800,49 @@ const OptionsPage: React.FC = () => {
           </button>
           {isCustomizeAppOpen && (
             <div className="p-4 border-t border-gray-200 dark:border-gray-700">
-              {/* App Theme Color Picker */}
-              <div className="ml-4">
-                 <label htmlFor="appThemeColor" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                   Color del sidebar
-                 </label>
-                 <ColorPicker color={appThemeColor} onChange={handleAppThemeColorChange} />
-               </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                {/* App Theme Color Picker */}
+                <div className="w-full">
+                  <label htmlFor="appThemeColor" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Color del sidebar
+                  </label>
+                  <ColorPicker color={appThemeColor} onChange={handleAppThemeColorChange} />
+                </div>
 
-               {/* Notification Type */} 
-               <div className="ml-4">
-                 <label htmlFor="notificationType" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                   Tipo de Notificaciones
-                 </label>
-                 <select
-                   id="notificationType"
-                   className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-3 text-xs py-1"
-                   value={notificationType}
-                   onChange={(e) => setNotificationType(e.target.value)}
-                 >
-                   <option value="">Seleccionar Tipo</option>
-                   <option value="email">Sonidos</option>
-                   <option value="sms">Voz</option>
-                 </select>
-               </div>
+                {/* Notification Type */} 
+                <div>
+                  <label htmlFor="notificationType" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Tipo de Notificaciones
+                  </label>
+                  <select
+                    id="notificationType"
+                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-3 text-xs py-1"
+                    value={notificationType}
+                    onChange={(e) => setNotificationType(e.target.value)}
+                  >
+                    <option value="">Seleccionar Tipo</option>
+                    <option value="email">Sonidos</option>
+                    <option value="sms">Voz</option>
+                  </select>
+                </div>
 
-               {/* Voice Type */}
-               <div className="ml-4">
-                 <label htmlFor="voiceType" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                   Tipo de Voz
-                 </label>
-                 <select
-                   id="voiceType"
-                   className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-3 text-xs py-1"
-                   value={voiceType}
-                   onChange={(e) => setVoiceType(e.target.value)}
-                 >
-                   <option value="">Seleccionar Tipo</option>
-                   <option value="male">Masculina</option>
-                   <option value="female">Femenina</option>
-                 </select>
-               </div>
+                {/* Voice Type */}
+                <div>
+                  <label htmlFor="voiceType" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Tipo de Voz
+                  </label>
+                  <select
+                    id="voiceType"
+                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-3 text-xs py-1"
+                    value={voiceType}
+                    onChange={(e) => setVoiceType(e.target.value)}
+                  >
+                    <option value="">Seleccionar Tipo</option>
+                    <option value="male">Masculina</option>
+                    <option value="female">Femenina</option>
+                  </select>
+                </div>
+              </div>
 
             </div>
           )}
