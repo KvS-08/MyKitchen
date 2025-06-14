@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronDown, ChevronUp, Save } from 'lucide-react';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 import { MdOutlineDriveFileRenameOutline } from 'react-icons/md';
 import { IoMdBusiness } from 'react-icons/io';
 import { FaMapLocationDot, FaTreeCity } from 'react-icons/fa6';
@@ -10,6 +10,9 @@ import { FaPhoneAlt } from 'react-icons/fa';
 import { useAuth } from '../hooks/useAuth';
 import { supabase } from '../lib/supabase';
 import toast from 'react-hot-toast';
+import { format } from 'date-fns';
+import { es } from 'date-fns/locale';
+import { ThemeToggle } from '../components/ui/ThemeToggle';
 
 const OptionsPage: React.FC = () => {
   const { user } = useAuth();
@@ -32,9 +35,9 @@ const OptionsPage: React.FC = () => {
   
   // Employee config states
   const [isEmployeeConfigOpen, setIsEmployeeConfigOpen] = useState(false);
-  const [employeeName, setEmployeeName] = useState('');
-  const [employeeRole, setEmployeeRole] = useState('');
-  const [employeeEmail, setEmployeeEmail] = useState('');
+  const [employeeName, setEmployeeName] = useState<string>('');
+  const [employeeRole, setEmployeeRole] = useState<string>('');
+  const [employeeEmail, setEmployeeEmail] = useState<string>('');
 
   const countryPrefixes: { [key: string]: string } = {
     "Canadá": "+1",
@@ -181,14 +184,30 @@ const OptionsPage: React.FC = () => {
 
   return (
     <div className="space-y-6 md:ml-32 pt-4 md:pt-0 md:-mt-10">
-      <h1 className="text-2xl font-bold mb-6">Opciones</h1>
+      <div className="flex justify-between items-center">
+        <h1 className="text-xl md:text-3xl font-bold">
+          {(() => {
+            const formattedDate = format(new Date(), 'EEEE, dd \'de\' MMMM \'de\' yyyy', { locale: es });
+            const parts = formattedDate.split(',');
+            if (parts.length > 0) {
+              const day = parts[0];
+              const capitalizedDay = day.charAt(0).toUpperCase() + day.slice(1);
+              return [capitalizedDay, ...parts.slice(1)].join(',');
+            }
+            return formattedDate; // Fallback if split fails
+          })()}
+        </h1>
+        <div className="hidden md:block">
+          <ThemeToggle />
+        </div>
+      </div>
 
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow mb-4">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow mb-4 mt-6">
         <button
           onClick={toggleBusinessInfo}
           className="flex items-center justify-between w-full p-4 text-lg font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-t-lg"
         >
-          <span>Información del negocio</span>
+          <span>Información del Negocio</span>
           {isBusinessInfoOpen ? (
             <ChevronUp className="h-5 w-5" />
           ) : (
@@ -204,41 +223,43 @@ const OptionsPage: React.FC = () => {
               </div>
             ) : (
               <>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div>
-                    <label htmlFor="businessName" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                      Nombre del Negocio *
-                    </label>
-                    <div className="relative mt-1">
-                      <MdOutlineDriveFileRenameOutline className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                      <input 
-                        type="text" 
-                        id="businessName" 
-                        className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-8" 
-                        value={businessName} 
-                        onChange={(e) => handleFieldChange(setBusinessName)(e.target.value)}
-                        placeholder="Nombre de tu negocio"
-                      />
+                <div className="grid grid-cols-1 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+
+                    <div>
+                      <label htmlFor="businessName" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Nombre del Negocio
+                      </label>
+                      <div className="relative mt-1">
+                        <MdOutlineDriveFileRenameOutline className="absolute left-1 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                        <input 
+                          type="text" 
+                          id="businessName" 
+                          className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-6 text-sm" 
+                          value={businessName} 
+                          onChange={(e) => handleFieldChange(setBusinessName)(e.target.value)}
+                          placeholder="Nombre de tu negocio"
+                        />
+                      </div>
                     </div>
-                  </div>
-                  
+                    
                   <div>
-                    <label htmlFor="businessType" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                      Tipo de Negocio
-                    </label>
-                    <div className="relative mt-1">
-                      <IoMdBusiness className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                      <input 
-                        type="text" 
-                        id="businessType" 
-                        className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-8" 
-                        value={businessType} 
-                        onChange={(e) => handleFieldChange(setBusinessType)(e.target.value)}
-                        placeholder="Ej: Restaurante, Cafetería"
-                      />
+                      <label htmlFor="businessType" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Tipo de Negocio
+                      </label>
+                      <div className="relative mt-1">
+                        <IoMdBusiness className="absolute left-1 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                        <input 
+                          type="text" 
+                          id="businessType" 
+                          className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-6 text-sm" 
+                          value={businessType} 
+                          onChange={(e) => handleFieldChange(setBusinessType)(e.target.value)}
+                          placeholder="Ej: Restaurante, Cafetería"
+                        />
+                      </div>
                     </div>
-                  </div>
-                  
+                    
                   <div>
                     <label htmlFor="businessLogo" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                       Logo del Negocio
@@ -247,21 +268,23 @@ const OptionsPage: React.FC = () => {
                       type="file" 
                       id="businessLogo" 
                       accept="image/*" 
-                      className="mt-1 block w-full text-gray-700 dark:text-gray-300" 
+                      className="mt-1 block w-auto text-gray-700 dark:text-gray-300 text-sm" 
                       onChange={(e) => handleFieldChange(setBusinessLogo)(e.target.files ? e.target.files[0].name : '')} 
                     />
                   </div>
-                  
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   <div>
                     <label htmlFor="address" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                       Dirección
                     </label>
                     <div className="relative mt-1">
-                      <FaMapLocationDot className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                      <FaMapLocationDot className="absolute left-1 top-1/2 transform -translate-y-1/2 text-gray-400" />
                       <input 
                         type="text" 
                         id="address" 
-                        className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-8" 
+                        className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-6 text-sm" 
                         value={address} 
                         onChange={(e) => handleFieldChange(setAddress)(e.target.value)}
                         placeholder="Dirección completa"
@@ -274,11 +297,11 @@ const OptionsPage: React.FC = () => {
                       Ciudad
                     </label>
                     <div className="relative mt-1">
-                      <FaTreeCity className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                      <FaTreeCity className="absolute left-1 top-1/2 transform -translate-y-1/2 text-gray-400" />
                       <input 
                         type="text" 
                         id="city" 
-                        className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-8" 
+                        className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-6 text-sm" 
                         value={city} 
                         onChange={(e) => handleFieldChange(setCity)(e.target.value)}
                         placeholder="Ciudad"
@@ -291,10 +314,10 @@ const OptionsPage: React.FC = () => {
                       País
                     </label>
                     <div className="relative mt-1">
-                      <BiWorld className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                      <BiWorld className="absolute left-1 top-1/2 transform -translate-y-1/2 text-gray-400" />
                       <select 
                         id="country" 
-                        className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-8" 
+                        className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-5 text-sm" 
                         value={country} 
                         onChange={(e) => {
                           const selectedCountry = e.target.value;
@@ -332,64 +355,67 @@ const OptionsPage: React.FC = () => {
                       </select>
                     </div>
                   </div>
-                  
-                  <div>
-                    <label htmlFor="bankAccount" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                      Cuenta Bancaria
-                    </label>
-                    <div className="relative mt-1">
-                      <BiSolidBank className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                      <input 
-                        type="text" 
-                        id="bankAccount" 
-                        className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-8" 
-                        value={bankAccount} 
-                        onChange={(e) => handleFieldChange(setBankAccount)(e.target.value)}
-                        placeholder="Número de cuenta"
-                      />
-                    </div>
                   </div>
                   
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                      E-mail *
-                    </label>
-                    <div className="relative mt-1">
-                      <MdOutlineEmail className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                      <input 
-                        type="email" 
-                        id="email" 
-                        className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-8" 
-                        value={email} 
-                        onChange={(e) => handleFieldChange(setEmail)(e.target.value)}
-                        placeholder="correo@ejemplo.com"
-                      />
-                    </div>
-                  </div>
-                  
-                  <div>
-                    <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                      Número Telefónico
-                    </label>
-                    <div className="relative mt-1 flex items-center">
-                      {phoneNumberPrefix && (
-                        <span className="text-gray-500 dark:text-gray-400 text-sm bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded-md mr-2">
-                          {phoneNumberPrefix}
-                        </span>
-                      )}
-                      <div className="relative flex-1">
-                        <FaPhoneAlt className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div>
+                      <label htmlFor="bankAccount" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Cuenta Bancaria
+                      </label>
+                      <div className="relative mt-1">
+                        <BiSolidBank className="absolute left-1 top-1/2 transform -translate-y-1/2 text-gray-400" />
                         <input 
-                          type="tel" 
-                          id="phoneNumber" 
-                          className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-8" 
-                          value={phoneNumber} 
-                          onChange={(e) => handleFieldChange(setPhoneNumber)(e.target.value)}
-                          placeholder="Ej: 9876-5432"
+                          type="text" 
+                          id="bankAccount" 
+                          className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-6 text-sm" 
+                          value={bankAccount} 
+                          onChange={(e) => handleFieldChange(setBankAccount)(e.target.value)}
+                          placeholder="Número de cuenta"
                         />
                       </div>
                     </div>
-                  </div>
+                    
+                    <div className="sm:col-span-1">
+                      <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        E-mail
+                      </label>
+                      <div className="relative mt-1">
+                        <MdOutlineEmail className="absolute left-1 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                        <input 
+                          type="email" 
+                          id="email" 
+                          className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-6 text-sm" 
+                          value={email} 
+                          onChange={(e) => handleFieldChange(setEmail)(e.target.value)}
+                          placeholder="correo@ejemplo.com"
+                        />
+                      </div>
+                    </div>
+                    
+                    <div className="sm:col-span-1">
+                      <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Número Telefónico
+                      </label>
+                      <div className="relative mt-1 flex items-center">
+                        {phoneNumberPrefix && (
+                            <span className="text-gray-500 dark:text-gray-400 text-sm bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded-md mr-2">
+                              {phoneNumberPrefix}
+                            </span>
+                          )}
+                          <div className="relative flex-1">
+                            <FaPhoneAlt className="absolute left-1 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                            <input 
+                              type="tel" 
+                              id="phoneNumber" 
+                              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-6 text-sm" 
+                              value={phoneNumber} 
+                              onChange={(e) => handleFieldChange(setPhoneNumber)(e.target.value)}
+                              placeholder="Ej: 9876-5432"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                 </div>
                 
                 {hasBusinessInfoChanged && (
@@ -397,19 +423,9 @@ const OptionsPage: React.FC = () => {
                     <button
                       onClick={saveBusinessData}
                       disabled={saving || !businessName || !email}
-                      className="btn-primary flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="text-green-500 hover:text-green-600 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      {saving ? (
-                        <>
-                          <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
-                          Guardando...
-                        </>
-                      ) : (
-                        <>
-                          <Save className="h-4 w-4" />
-                          Guardar Cambios
-                        </>
-                      )}
+                      {saving ? 'Guardando...' : 'Guardar cambios'}
                     </button>
                   </div>
                 )}
@@ -433,17 +449,17 @@ const OptionsPage: React.FC = () => {
         </button>
         {isEmployeeConfigOpen && (
           <div className="p-4 border-t border-gray-200 dark:border-gray-700">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-4">
               <div>
                 <label htmlFor="employeeName" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Nombre del empleado
+                  Nombre del Usuario
                 </label>
                 <div className="relative mt-1">
                   <MdOutlineDriveFileRenameOutline className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" />
                   <input 
                     type="text" 
                     id="employeeName" 
-                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-8" 
+                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-6 text-sm" 
                     value={employeeName} 
                     onChange={(e) => setEmployeeName(e.target.value)}
                     placeholder="Nombre completo"
@@ -455,16 +471,17 @@ const OptionsPage: React.FC = () => {
                   Rol
                 </label>
                 <div className="relative mt-1">
-                  <FaUserGear className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                  <FaUserGear className="absolute left-1 top-1/2 transform -translate-y-1/2 text-gray-400" />
                   <select 
                     id="employeeRole" 
-                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-8" 
+                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-6 text-sm" 
                     value={employeeRole} 
                     onChange={(e) => setEmployeeRole(e.target.value)}
                   >
                     <option value="">Seleccione un rol</option>
-                    <option value="admin">Administrador</option>
+                    <option value="admin">Admin</option>
                     <option value="cashier">Cajero</option>
+                    <option value="cashier">Mesero</option>
                     <option value="chef">Cocinero</option>
                   </select>
                 </div>
@@ -474,11 +491,11 @@ const OptionsPage: React.FC = () => {
                   Email
                 </label>
                 <div className="relative mt-1">
-                  <MdOutlineEmail className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                  <MdOutlineEmail className="absolute left-1 top-1/2 transform -translate-y-1/2 text-gray-400" />
                   <input 
                     type="email" 
                     id="employeeEmail" 
-                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-8" 
+                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-6 text-sm" 
                     value={employeeEmail} 
                     onChange={(e) => setEmployeeEmail(e.target.value)}
                     placeholder="correo@ejemplo.com"
@@ -486,11 +503,14 @@ const OptionsPage: React.FC = () => {
                 </div>
               </div>
             </div>
-            <div className="flex justify-end mt-4">
-              <button className="btn-primary">
-                Agregar Empleado
-              </button>
-            </div>
+            <hr className="my-4 border-gray-200 dark:border-gray-700" />
+            {(employeeName && employeeRole && employeeEmail) && (
+              <div className="flex justify-end mt-4">
+                <button className="text-green-500">
+                  Agregar
+                </button>
+              </div>
+            )}
           </div>
         )}
       </div>
