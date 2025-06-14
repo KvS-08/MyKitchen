@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronDown, ChevronUp, CalendarDays, Clock, DollarSign } from 'lucide-react';
+import { ChevronDown, ChevronUp, Clock } from 'lucide-react';
+import { RiAlarmFill } from 'react-icons/ri';
 import { MdOutlineDriveFileRenameOutline, MdDelete } from 'react-icons/md';
 import { IoMdBusiness } from 'react-icons/io';
 import { FaMapLocationDot, FaTreeCity } from 'react-icons/fa6';
@@ -684,7 +685,7 @@ const OptionsPage: React.FC = () => {
                   Formato de fecha
                 </label>
                 <div className="relative mt-1">
-                  <CalendarDays className="absolute left-1 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                  <BsCalendarDateFill className="absolute left-1 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                   <select
                     id="dateFormat"
                     className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-6 text-xs py-1"
@@ -801,7 +802,7 @@ const OptionsPage: React.FC = () => {
             className="flex items-center justify-between w-full p-4 text-lg font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-t-lg"
           >
             <div className="flex items-center">
-              <CalendarDays className="h-5 w-5 mr-2" /> {/* Using CalendarDays as an example icon */}
+              <RiAlarmFill className="h-5 w-5 mr-2" />
               <span>Configurar Recordatorios</span>
             </div>
             {isRecordatoriosOpen ? (
