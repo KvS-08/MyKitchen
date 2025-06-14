@@ -21,6 +21,7 @@ const OptionsPage: React.FC = () => {
   const { user } = useAuth();
   const [isBusinessInfoOpen, setIsBusinessInfoOpen] = useState(false);
   const [hasBusinessInfoChanged, setHasBusinessInfoChanged] = useState(false);
+  const [hasRegionalFormatChanged, setHasRegionalFormatChanged] = useState(false);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   
@@ -44,10 +45,46 @@ const OptionsPage: React.FC = () => {
 
   // Regional format states
   const [isRegionalFormatOpen, setIsRegionalFormatOpen] = useState(false);
+  const saveRegionalFormatData = async () => {
+    if (!user?.business_id) {
+      toast.error('No se encontró información del negocio');
+      return;
+    }
+
+    setSaving(true);
+    try {
+      const updateData = {
+        date_format: dateFormat || null,
+        time_format: timeFormat || null,
+        currency_format: currencyFormat || null,
+      };
+
+      const { error } = await supabase
+        .from('businesses')
+        .update(updateData)
+        .eq('id', user.business_id);
+
+      if (error) {
+        console.error('Error saving regional format data:', error);
+        toast.error('Error al guardar los datos de formato regional');
+        return;
+      }
+
+      toast.success('Datos de formato regional guardados correctamente');
+      setHasRegionalFormatChanged(false);
+    } catch (error) {
+      console.error('Error saving regional format data:', error);
+      toast.error('Error al guardar los datos de formato regional');
+    } finally {
+      setSaving(false);
+    }
+  };
 
   // Customize App states
   const [isCustomizeAppOpen, setIsCustomizeAppOpen] = useState(false);
-  const [appThemeColor, setAppThemeColor] = useState('');
+  const [appThemeColor, setAppThemeColor] = useState<string>('#000000');
+  const [notificationType, setNotificationType] = useState('');
+  const [voiceType, setVoiceType] = useState('');
 
   const toggleCustomizeApp = () => {
     setIsCustomizeAppOpen(!isCustomizeAppOpen);
@@ -139,6 +176,12 @@ const OptionsPage: React.FC = () => {
         setCountry(data.country || '');
         setBankAccount(data.bank_account || '');
         setAppThemeColor(data.app_theme_color || '');
+        setNotificationType(data.notification_type || '');
+        setVoiceType(data.voice_type || '');
+        setDateFormat(data.date_format || '');
+        setTimeFormat(data.time_format || '');
+        setCurrencyFormat(data.currency_format || '');
+        setHasRegionalFormatChanged(false);
         
         // Handle phone number - extract prefix and number
         if (data.phone) {
@@ -193,6 +236,8 @@ const OptionsPage: React.FC = () => {
         phone: fullPhoneNumber || null,
         bank_account: bankAccount || null,
         app_theme_color: appThemeColor || null,
+        notification_type: notificationType || null,
+        voice_type: voiceType || null,
       };
 
       const { error } = await supabase
@@ -216,9 +261,13 @@ const OptionsPage: React.FC = () => {
     }
   };
 
-  const handleFieldChange = (setter: (value: string) => void) => (value: string) => {
+  const handleFieldChange = (setter: (value: string) => void, setChanged?: (value: boolean) => void) => (value: string) => {
     setter(value);
-    setHasBusinessInfoChanged(true);
+    if (setChanged) {
+      setChanged(true);
+    } else {
+      setHasBusinessInfoChanged(true);
+    }
   };
 
   const toggleBusinessInfo = () => {
@@ -479,7 +528,7 @@ const OptionsPage: React.FC = () => {
                       disabled={saving || !businessName || !email}
                       className="text-green-500 hover:text-green-600 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      {saving ? 'Guardando...' : 'Guardar cambios'}
+                      {saving ? 'Guardando...' : 'Guardar'}
                     </button>
                   </div>
                 )}
@@ -628,7 +677,13 @@ const OptionsPage: React.FC = () => {
                     id="dateFormat"
                     className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-6 text-xs py-1"
                     value={dateFormat}
-                    onChange={(e) => setDateFormat(e.target.value)}
+                    onChange={(e) => {
+                      const newValue = e.target.value;
+                      if (newValue !== dateFormat) {
+                        setDateFormat(newValue);
+                        setHasRegionalFormatChanged(true);
+                      }
+                    }}
                   >
                     <option value="">Tipo de Fecha</option>
                     <option value="DD/MM/YYYY">DD/MM/YYYY</option>
@@ -647,8 +702,14 @@ const OptionsPage: React.FC = () => {
                     id="timeFormat"
                     className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-6 text-xs py-1"
                     value={timeFormat}
-                    onChange={(e) => setTimeFormat(e.target.value)}
-                  >
+                    onChange={(e) => {
+                      const newValue = e.target.value;
+                      if (newValue !== timeFormat) {
+                        setTimeFormat(newValue);
+                        setHasRegionalFormatChanged(true);
+                      }
+                    }}
+                  >en el
                     <option value="">Tpo de Hora</option>
                     <option value="HH:mm">HH:mm (24h)</option>
                     <option value="hh:mm A">hh:mm AM/PM (12h)</option>
@@ -665,7 +726,13 @@ const OptionsPage: React.FC = () => {
                           id="currencyFormat" 
                           className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-5 text-xs py-1" 
                           value={currencyFormat} 
-                          onChange={(e) => setCurrencyFormat(e.target.value)}
+                          onChange={(e) => {
+                            const newValue = e.target.value;
+                            if (newValue !== currencyFormat) {
+                              setCurrencyFormat(newValue);
+                              setHasRegionalFormatChanged(true);
+                            }
+                          }}
                         >
                           <option value="">Tipo de Moneda</option>
                           {Object.entries(countryCurrencies).reduce((acc, [countryName, currencies]) => {
@@ -701,6 +768,17 @@ const OptionsPage: React.FC = () => {
                 </div>
               </div>
             </div>
+            {hasRegionalFormatChanged && (
+              <div className="flex justify-end mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+                <button
+                  onClick={saveRegionalFormatData}
+                  disabled={saving}
+                  className="text-green-500 hover:text-green-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {saving ? 'Guardando...' : 'Guardar'}
+                </button>
+              </div>
+            )}
           </div>)}
         </div>
 
@@ -721,13 +799,47 @@ const OptionsPage: React.FC = () => {
             )}
           </button>
           {isCustomizeAppOpen && (
-            <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="p-4 border-t border-gray-200 dark:border-gray-700">
               {/* App Theme Color Picker */}
               <div className="ml-4">
                  <label htmlFor="appThemeColor" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                   Color del Tema de la Aplicación
+                   Color del sidebar
                  </label>
                  <ColorPicker color={appThemeColor} onChange={handleAppThemeColorChange} />
+               </div>
+
+               {/* Notification Type */} 
+               <div className="ml-4">
+                 <label htmlFor="notificationType" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                   Tipo de Notificaciones
+                 </label>
+                 <select
+                   id="notificationType"
+                   className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-3 text-xs py-1"
+                   value={notificationType}
+                   onChange={(e) => setNotificationType(e.target.value)}
+                 >
+                   <option value="">Seleccionar Tipo</option>
+                   <option value="email">Sonidos</option>
+                   <option value="sms">Voz</option>
+                 </select>
+               </div>
+
+               {/* Voice Type */}
+               <div className="ml-4">
+                 <label htmlFor="voiceType" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                   Tipo de Voz
+                 </label>
+                 <select
+                   id="voiceType"
+                   className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-3 text-xs py-1"
+                   value={voiceType}
+                   onChange={(e) => setVoiceType(e.target.value)}
+                 >
+                   <option value="">Seleccionar Tipo</option>
+                   <option value="male">Masculina</option>
+                   <option value="female">Femenina</option>
+                 </select>
                </div>
 
             </div>
