@@ -9,7 +9,7 @@ interface ColorPickerProps {
 const ColorPicker: React.FC<ColorPickerProps> = ({ color, onChange }) => {
   return (
     <div className="color-picker-container">
-      <HexColorPicker color={color} onChange={onChange} />
+      <HexColorPicker color={color} onChange={onChange} style={{ width: '100%' }} />
     </div>
   );
 };
