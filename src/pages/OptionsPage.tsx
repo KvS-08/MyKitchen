@@ -82,12 +82,24 @@ const OptionsPage: React.FC = () => {
 
   // Customize App states
   const [isCustomizeAppOpen, setIsCustomizeAppOpen] = useState(false);
+  const [isRecordatoriosOpen, setIsRecordatoriosOpen] = useState(false);
+  const [eventName, setEventName] = useState('');
+  const [eventDate, setEventDate] = useState('');
+  const [reminders, setReminders] = useState<{ name: string; date: string }[]>([]);
+
+  const handleDeleteReminder = (indexToDelete: number) => {
+    setReminders(currentReminders => currentReminders.filter((_, index) => index !== indexToDelete));
+  };
   const [appThemeColor, setAppThemeColor] = useState<string>('#000000');
   const [notificationType, setNotificationType] = useState('');
   const [voiceType, setVoiceType] = useState('');
 
   const toggleCustomizeApp = () => {
     setIsCustomizeAppOpen(!isCustomizeAppOpen);
+  };
+
+  const toggleRecordatorios = () => {
+    setIsRecordatoriosOpen(!isRecordatoriosOpen);
   };
 
   const handleAppThemeColorChange = (color: string) => {
@@ -780,6 +792,113 @@ const OptionsPage: React.FC = () => {
               </div>
             )}
           </div>)}
+        </div>
+
+        {/* Recordatorios Accordion */}
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow mb-4">
+          <button
+            onClick={toggleRecordatorios}
+            className="flex items-center justify-between w-full p-4 text-lg font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-t-lg"
+          >
+            <div className="flex items-center">
+              <CalendarDays className="h-5 w-5 mr-2" /> {/* Using CalendarDays as an example icon */}
+              <span>Configurar Recordatorios</span>
+            </div>
+            {isRecordatoriosOpen ? (
+              <ChevronUp className="h-5 w-5" />
+            ) : (
+              <ChevronDown className="h-5 w-5" />
+            )}
+          </button>
+          {isRecordatoriosOpen && (
+            <div className="p-4 border-t border-gray-200 dark:border-gray-700">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label htmlFor="eventName" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Evento
+                  </label>
+                  <input
+                    type="text"
+                    id="eventName"
+                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-3 text-sm py-1"
+                    value={eventName}
+                    onChange={(e) => setEventName(e.target.value)}
+                    placeholder="Nombre del evento"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="eventDate" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Fecha
+                  </label>
+                  <input
+                    type="date"
+                    id="eventDate"
+                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-3 text-sm py-1"
+                    value={eventDate}
+                    onChange={(e) => setEventDate(e.target.value)}
+                  />
+                </div>
+              </div>
+              {/* Tabla y botón de Recordatorios movidos aquí */}
+              <div className="mt-6">
+                <div className="flex justify-between items-center mb-4">
+                  <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300">Eventos agregados</h3>
+                  {eventName && eventDate && (
+                    <button
+                      onClick={() => {
+                        setReminders([...reminders, { name: eventName, date: eventDate }]);
+                        setEventName('');
+                        setEventDate('');
+                      }}
+                      className="text-green-600 focus:outline-none"
+                      style={{ textDecoration: 'none' }}
+                    >
+                      Agregar
+                    </button>
+                  )}
+                </div>
+                <div className="overflow-x-auto">
+                  <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                    <thead className="bg-gray-50 dark:bg-gray-700">
+                      <tr>
+                        <th scope="col" className="px-5 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider sm:w-1/3">
+                          Evento
+                        </th>
+                        <th scope="col" className="px-6 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                          Fecha
+                        </th>
+                        <th scope="col" className="px-1 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                          Acciones
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                      {reminders.map((reminder, index) => (
+                        <tr key={index}>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                            {reminder.name}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                            {new Date(reminder.date + 'T00:00:00').toLocaleDateString(navigator.language, { year: 'numeric', month: 'long', day: 'numeric' })}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            <button
+                              onClick={() => handleDeleteReminder(index)}
+                              className="text-red-600 hover:text-red-900"
+                            >
+                              <MdDelete className="h-5 w-5" />
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+            </div>
+          )}
         </div>
 
         {/* Customize App Section */}
