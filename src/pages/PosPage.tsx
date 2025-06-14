@@ -196,9 +196,9 @@ const PosPage: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6 md:ml-32 -mt-10">
+    <div className="space-y-6 md:ml-32 pt-4 md:pt-0 md:-mt-10">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="font-bold text-xl lg:text-3xl">
+      <h1 className="text-lg md:text-3xl font-bold">
           {(() => {
             const date = new Date();
             const options: Intl.DateTimeFormatOptions = {
