@@ -1,9 +1,20 @@
-import React from 'react';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { ThemeToggle } from '../components/ui/ThemeToggle';
+import React, { useState } from 'react';
+import AddCategoriesModal from '../components/kitchen/AddCategoriesModal';
 
 const MenuPage: React.FC = () => {
+  const [isAddCategoryModalOpen, setIsAddCategoryModalOpen] = useState(false);
+
+  const handleOpenAddCategoryModal = () => {
+    setIsAddCategoryModalOpen(true);
+  };
+
+  const handleCloseAddCategoryModal = () => {
+    setIsAddCategoryModalOpen(false);
+  };
+
   return (
     <div className="space-y-6 md:ml-32 pt-4 md:pt-0 md:-mt-10">
       <div className="flex justify-between items-center">
@@ -27,12 +38,22 @@ const MenuPage: React.FC = () => {
         <h2 className="text-2xl font-bold">Menú</h2>
         <div className="flex space-x-2">
           <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1.5 px-1 rounded text-xs md:py-1 md:px-2 md:text-sm">Agregar Producto</button>
-          <button className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-1.5 px-1 rounded text-xs md:py-1 md:px-2 md:text-sm">Agregar Categoría</button>
+          <button
+            className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-1.5 px-1 rounded text-xs md:py-1 md:px-2 md:text-sm"
+            onClick={handleOpenAddCategoryModal}
+          >
+            Agregar Categoría
+          </button>
         </div>
       </div>
       <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md">
         <p>Aquí puedes agregar el contenido de tu menú.</p>
       </div>
+      {/* AddCategoriesModal will be rendered here */}
+      <AddCategoriesModal
+        isOpen={isAddCategoryModalOpen}
+        onClose={handleCloseAddCategoryModal}
+      />
     </div>
   );
 };
