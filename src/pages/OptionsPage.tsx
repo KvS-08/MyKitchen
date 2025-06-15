@@ -9,7 +9,7 @@ import { MdOutlineEmail } from 'react-icons/md';
 import { HiColorSwatch } from 'react-icons/hi';
 import { BsCurrencyExchange, BsFillInfoCircleFill, BsCalendarDateFill } from 'react-icons/bs';
 import { FaUserGear, FaUserPlus } from 'react-icons/fa6';
-import { FaPhoneAlt } from 'react-icons/fa';
+import { FaPhoneAlt, FaUpload } from 'react-icons/fa';
 import { useAuth } from '../hooks/useAuth';
 import { supabase } from '../lib/supabase';
 import toast from 'react-hot-toast';
@@ -25,11 +25,13 @@ const OptionsPage: React.FC = () => {
   const [hasRegionalFormatChanged, setHasRegionalFormatChanged] = useState(false);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [uploadingLogo, setUploadingLogo] = useState(false);
   
   // Business info states
   const [businessName, setBusinessName] = useState('');
   const [businessType, setBusinessType] = useState('');
   const [businessLogo, setBusinessLogo] = useState('');
+  const [logoFile, setLogoFile] = useState<File | null>(null);
   const [address, setAddress] = useState('');
   const [city, setCity] = useState('');
   const [country, setCountry] = useState('');
@@ -188,12 +190,13 @@ const OptionsPage: React.FC = () => {
         setCity(data.city || '');
         setCountry(data.country || '');
         setBankAccount(data.bank_account || '');
-        setAppThemeColor(data.app_theme_color || '');
+        setBusinessLogo(data.logo_url || '');
+        setAppThemeColor(data.primary_color || '#000000');
         setNotificationType(data.notification_type || '');
         setVoiceType(data.voice_type || '');
         setDateFormat(data.date_format || '');
         setTimeFormat(data.time_format || '');
-        setCurrencyFormat(data.currency_format || '');
+        setCurrencyFormat(data.currency || '');
         setHasRegionalFormatChanged(false);
         
         // Handle phone number - extract prefix and number
@@ -227,6 +230,65 @@ const OptionsPage: React.FC = () => {
     }
   };
 
+  const uploadLogo = async (file: File): Promise<string | null> => {
+    if (!user?.business_id) return null;
+
+    try {
+      setUploadingLogo(true);
+      
+      // Create a unique filename
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${user.business_id}/logo.${fileExt}`;
+      
+      // Upload file to Supabase Storage
+      const { data, error } = await supabase.storage
+        .from('business-logos')
+        .upload(fileName, file, {
+          cacheControl: '3600',
+          upsert: true
+        });
+
+      if (error) {
+        console.error('Error uploading logo:', error);
+        toast.error('Error al subir el logo');
+        return null;
+      }
+
+      // Get public URL
+      const { data: { publicUrl } } = supabase.storage
+        .from('business-logos')
+        .getPublicUrl(fileName);
+
+      return publicUrl;
+    } catch (error) {
+      console.error('Error uploading logo:', error);
+      toast.error('Error al subir el logo');
+      return null;
+    } finally {
+      setUploadingLogo(false);
+    }
+  };
+
+  const handleLogoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      toast.error('Por favor selecciona un archivo de imagen válido');
+      return;
+    }
+
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error('El archivo es muy grande. Máximo 5MB');
+      return;
+    }
+
+    setLogoFile(file);
+    setHasBusinessInfoChanged(true);
+  };
+
   const saveBusinessData = async () => {
     if (!user?.business_id) {
       toast.error('No se encontró información del negocio');
@@ -235,6 +297,16 @@ const OptionsPage: React.FC = () => {
 
     setSaving(true);
     try {
+      let logoUrl = businessLogo;
+
+      // Upload logo if a new file was selected
+      if (logoFile) {
+        const uploadedUrl = await uploadLogo(logoFile);
+        if (uploadedUrl) {
+          logoUrl = uploadedUrl;
+        }
+      }
+
       // Combine phone prefix and number
       const fullPhoneNumber = phoneNumberPrefix && phoneNumber 
         ? `${phoneNumberPrefix}${phoneNumber}` 
@@ -248,9 +320,9 @@ const OptionsPage: React.FC = () => {
         country: country || null,
         phone: fullPhoneNumber || null,
         bank_account: bankAccount || null,
-        app_theme_color: appThemeColor || null,
+        logo_url: logoUrl || null,
+        primary_color: appThemeColor || null,
         notification_type: notificationType || null,
-        voice_type: voiceType || null,
       };
 
       const { error } = await supabase
@@ -264,6 +336,8 @@ const OptionsPage: React.FC = () => {
         return;
       }
 
+      setBusinessLogo(logoUrl);
+      setLogoFile(null);
       toast.success('Datos del negocio guardados correctamente');
       setHasBusinessInfoChanged(false);
     } catch (error) {
@@ -380,13 +454,34 @@ const OptionsPage: React.FC = () => {
                     <label htmlFor="businessLogo" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                       Logo del Negocio
                     </label>
-                    <input 
-                      type="file" 
-                      id="businessLogo" 
-                      accept="image/*" 
-                      className="mt-1 block w-auto text-gray-700 dark:text-gray-300 text-sm py-2" 
-                      onChange={(e) => handleFieldChange(setBusinessLogo)(e.target.files ? e.target.files[0].name : '')} 
-                    />
+                    <div className="mt-1 flex items-center space-x-2">
+                      {businessLogo && (
+                        <img 
+                          src={businessLogo} 
+                          alt="Logo del negocio" 
+                          className="h-10 w-10 object-cover rounded-md border border-gray-300"
+                        />
+                      )}
+                      <div className="flex-1">
+                        <label htmlFor="logoUpload" className="cursor-pointer inline-flex items-center px-3 py-1 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-600">
+                          <FaUpload className="h-3 w-3 mr-2" />
+                          {uploadingLogo ? 'Subiendo...' : 'Subir Logo'}
+                        </label>
+                        <input
+                          id="logoUpload"
+                          type="file"
+                          accept="image/*"
+                          onChange={handleLogoChange}
+                          className="hidden"
+                          disabled={uploadingLogo}
+                        />
+                      </div>
+                    </div>
+                    {logoFile && (
+                      <p className="mt-1 text-xs text-gray-500">
+                        Archivo seleccionado: {logoFile.name}
+                      </p>
+                    )}
                   </div>
                   </div>
 
