@@ -154,7 +154,7 @@ const AddProductsModal: React.FC<AddProductsModalProps> = ({ isOpen, onClose }) 
                   value={productPrice}
                   onChange={handleProductPriceChange}
                   className="mt-1 block w-full pl-6 pr-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-100 text-gray-800 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                  placeholder="Ej. 12.99, 5.00"
+                  placeholder="0.00"
                 />
               </div>
             </div>
