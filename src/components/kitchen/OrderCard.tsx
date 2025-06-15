@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Clock, Check } from 'lucide-react';
-import { formatDistance } from 'date-fns';
+import { IoMdTrash } from 'react-icons/io';
+import { FaCheckCircle } from 'react-icons/fa';
+import { formatDistance, formatDistanceStrict } from 'date-fns';
 import { es } from 'date-fns/locale';
 
 interface OrderItem {
@@ -18,6 +20,7 @@ interface OrderCardProps {
   items: OrderItem[];
   createdAt: Date;
   onComplete: (id: string) => void;
+  onCancel: (id: string) => void;
 }
 
 export const OrderCard: React.FC<OrderCardProps> = ({
@@ -27,6 +30,7 @@ export const OrderCard: React.FC<OrderCardProps> = ({
   items,
   createdAt,
   onComplete,
+  onCancel,
 }) => {
   const [now, setNow] = useState(new Date());
   
@@ -70,20 +74,20 @@ export const OrderCard: React.FC<OrderCardProps> = ({
           <h3 className="font-semibold text-base md:sm:text-lg">
             {tableNumber ? `Mesa ${tableNumber}` : customerName || 'Orden para llevar'}
           </h3>
-          <p className="text-xs sm:text-sm opacity-75">
+          <p className="text-xs sm:text-xs opacity-75">
             Orden #{id.substring(0, 8)}
           </p>
         </div>
         
         <div className="flex flex-col items-end">
           <div className="flex items-center space-x-1">
-            <Clock className="h-4 w-4" />
-            <span className="text-xs sm:text-sm font-medium">
+            <Clock className="h-4 w-4 hidden sm:block" />
+            <span className="text-xs sm:text-sm font-medium hidden sm:block">
               {statusText}: {formattedTimeLeft}
             </span>
           </div>
-          <p className="text-xs sm:text-xs opacity-75">
-            Recibida: {formatDistance(createdAt, now, { addSuffix: true, locale: es })}
+          <p className="text-xs sm:text-xs opacity-75 hidden sm:block">
+            Recibida: {formatDistanceStrict(createdAt, now, { addSuffix: true, locale: es })}
           </p>
         </div>
       </div>
@@ -92,7 +96,7 @@ export const OrderCard: React.FC<OrderCardProps> = ({
         {items.map((item) => (
           <li key={item.id} className="flex justify-between">
             <span className="font-medium text-sm sm:text-base">{item.quantity}x {item.name}</span>
-            <span className="text-xs sm:text-sm">
+            <span className="text-xs sm:text-sm hidden sm:block">
               {formatDistance(0, item.preparationTime * 60 * 1000, { includeSeconds: false, locale: es })}
             </span>
           </li>
@@ -110,13 +114,22 @@ export const OrderCard: React.FC<OrderCardProps> = ({
         ></div>
       </div>
       
-      <button 
-        onClick={() => onComplete(id)}
-        className="btn bg-white text-gray-800 hover:bg-gray-100 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 w-full flex items-center justify-center"
-      >
-        <Check className="h-4 w-4 mr-2" />
-        Servido
-      </button>
+      <div className="flex space-x-2">
+        <button 
+          onClick={() => onCancel(id)}
+          className="btn bg-white text-gray-800 hover:bg-gray-100 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 w-full flex items-center justify-center sm:w-auto"
+        >
+          <IoMdTrash className="h-4 w-4 text-danger-500 sm:hidden" />
+          <span className="hidden sm:inline">Cancelar</span>
+        </button>
+        <button 
+          onClick={() => onComplete(id)}
+          className="btn bg-white text-gray-800 hover:bg-gray-100 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 w-full flex items-center justify-center sm:w-auto"
+        >
+          <FaCheckCircle className="h-4 w-4 text-success-500 sm:hidden" />
+          <span className="hidden sm:inline">Servido</span>
+        </button>
+      </div>
     </div>
   );
 };
