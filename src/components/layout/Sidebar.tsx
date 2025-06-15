@@ -73,7 +73,7 @@ export const Sidebar: React.FC = () => {
               ) : (
                 <ChefHat className="h-8 w-8 text-primary-600 dark:text-primary-400" />
               )}
-              <h1 className="text-xs md:text-lg font-bold text-primary-600 dark:text-primary-400 truncate">
+              <h1 className="text-xs md:text-xs font-bold text-primary-600 dark:text-primary-400 truncate">
                 {user?.business?.name || 'My Kitchen'}
               </h1>
               </div>
