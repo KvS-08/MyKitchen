@@ -96,7 +96,6 @@ export const Sidebar: React.FC = () => {
           {isAdmin && (
             <>
               <NavItem to="/menu" icon={BsFillMenuButtonWideFill} label="Menú" />
-
               <NavItem to="/inventory" icon={FaBoxesPacking} label="Inventario" />
               <NavItem to="/reports" icon={FaChartColumn} label="Reportes" />
 
