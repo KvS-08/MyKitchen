@@ -170,3 +170,4 @@ export const KitchenPage: React.FC = () => {
       )}
     </div>
   );
+};
