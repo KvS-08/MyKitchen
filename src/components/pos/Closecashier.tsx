@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { FaTimes } from 'react-icons/fa';
-import { FaCircleDollarToSlot } from 'react-icons/fa6';
-import { GiMoneyStack } from 'react-icons/gi';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../hooks/useAuth';
+import { useBusinessSettings } from '../../hooks/useBusinessSettings';
 
 interface ClosecashierProps {
   isOpen: boolean;
@@ -13,6 +12,8 @@ interface ClosecashierProps {
 
 const Closecashier: React.FC<ClosecashierProps> = ({ isOpen, onClose, onSave }) => {
   const { user } = useAuth();
+  const { settings } = useBusinessSettings();
+  const currencySymbol = settings?.currencySymbol || '$'; // Default to '$' if not available
   const [totalSales, setTotalSales] = useState<number>(0);
   const [expenses, setExpenses] = useState<number>(0);
   const [utility, setUtility] = useState<number>(0);
@@ -137,7 +138,7 @@ const Closecashier: React.FC<ClosecashierProps> = ({ isOpen, onClose, onSave }) 
               name="closeTime"
               value={closeTime}
               onChange={(e) => setCloseTime(e.target.value)}
-              className="mt-1 block w-full pl-2 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              className="mt-1 block w-full pl-2 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-100 text-gray-800 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
             />
           </div>
           
@@ -147,13 +148,15 @@ const Closecashier: React.FC<ClosecashierProps> = ({ isOpen, onClose, onSave }) 
             </label>
             <div className="relative mt-1">
               <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
-                <FaCircleDollarToSlot className="text-red-500" size={16} />
+                <span className="text-gray-500 sm:text-sm">
+                  {currencySymbol}
+                </span>
               </div>
               <input
                 type="number"
                 id="expenses"
                 name="expenses"
-                className="mt-1 block w-full pl-8 pr-3 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                className="mt-1 block w-full pl-8 pr-3 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-100 text-gray-800 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                 placeholder="0.00"
                 step="0.01"
                 value={expenses.toFixed(2)}
@@ -166,17 +169,19 @@ const Closecashier: React.FC<ClosecashierProps> = ({ isOpen, onClose, onSave }) 
         <div className="flex space-x-4 mb-4">
           <div className="w-full">
             <label htmlFor="totalSales" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-              Venta Total del Día
+              Venta del Día
             </label>
             <div className="relative mt-1">
               <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
-                <FaCircleDollarToSlot className="text-green-500" size={16} />
+                <span className="text-gray-500 sm:text-sm">
+                  {currencySymbol}
+                </span>
               </div>
               <input
                 type="number"
                 id="totalSales"
                 name="totalSales"
-                className="mt-1 block w-full pl-8 pr-3 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                className="mt-1 block w-full pl-8 pr-3 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-100 text-gray-800 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                 placeholder="0.00"
                 step="0.01"
                 value={totalSales.toFixed(2)}
@@ -191,13 +196,15 @@ const Closecashier: React.FC<ClosecashierProps> = ({ isOpen, onClose, onSave }) 
             </label>
             <div className="relative mt-1">
               <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
-                <FaCircleDollarToSlot className="text-blue-500" size={16} />
+                <span className="text-gray-500 sm:text-sm">
+                  {currencySymbol}
+                </span>
               </div>
               <input
                 type="number"
                 id="utility"
                 name="utility"
-                className="mt-1 block w-full pl-8 pr-3 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                className="mt-1 block w-full pl-8 pr-3 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-100 text-gray-800 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                 placeholder="0.00"
                 step="0.01"
                 value={utility.toFixed(2)}
@@ -210,33 +217,35 @@ const Closecashier: React.FC<ClosecashierProps> = ({ isOpen, onClose, onSave }) 
         <div className="flex space-x-4 mb-4">
           <div className="w-full">
             <label htmlFor="cashClose" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-              Efectivo en Caja al Cierre
+              Efectivo en Caja
             </label>
             <div className="relative mt-1">
               <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
-                <GiMoneyStack className="text-green-500" size={16} />
+                <span className="text-gray-500 sm:text-sm">
+                  {currencySymbol}
+                </span>
               </div>
               <input
                 type="number"
                 id="cashClose"
                 name="cashClose"
-                className="mt-1 block w-full pl-8 pr-3 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                className="mt-1 block w-full pl-8 pr-3 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-100 text-gray-800 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                 placeholder="0.00"
                 step="0.01"
-                min="0"
-                value={cashClose}
-                onChange={(e) => setCashClose(parseFloat(e.target.value) || 0)}
+                value={cashClose.toFixed(2)}
+                onChange={(e) => setCashClose(parseFloat(e.target.value))}
               />
             </div>
           </div>
         </div>
         
-        <hr className="mb-4 border-gray-300 dark:border-gray-600" />
+        <hr className={`mb-4 border-gray-300 dark:border-gray-600 ${!closeTime || cashClose === 0 ? 'hidden' : ''}`} />
 
         <div className="flex justify-end space-x-3">
           <button
             onClick={handleSaveCloseCashier}
-            className="text-red-700 hover:text-red-700 dark:text-red-500 dark:hover:text-red-500 font-bold py-2 px-4 rounded"
+            disabled={!closeTime || cashClose === 0}
+            className={`text-red-700 hover:text-red-700 dark:text-red-500 dark:hover:text-red-500 font-bold py-2 px-4 rounded ${!closeTime || cashClose === 0 ? 'hidden' : ''}`}
           >
             Cerrar Caja
           </button>
