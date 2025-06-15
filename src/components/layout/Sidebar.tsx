@@ -59,7 +59,7 @@ export const Sidebar: React.FC = () => {
     <aside className={`
       fixed left-0 top-0 z-20 h-full bg-white border-r border-gray-200 transition-all
       dark:bg-gray-900 dark:border-gray-800 
-      w-48 hidden md:block
+      w-49 hidden md:block
     `}>
       <div className="flex flex-col h-full">
         <div className="flex items-center justify-between h-16 px-4 border-b border-gray-200 dark:border-gray-800">
@@ -74,8 +74,8 @@ export const Sidebar: React.FC = () => {
               ) : (
                 <ChefHat className="h-8 w-8 text-primary-600 dark:text-primary-400" />
               )}
-              <h1 className="text-lg font-bold text-primary-600 dark:text-primary-400 truncate">
-                {user?.business?.name || 'RestaurantOS'}
+              <h1 className="text-xs md:text-lg font-bold text-primary-600 dark:text-primary-400 truncate">
+                {user?.business?.name || 'My Kitchen'}
               </h1>
             </div>
           )}
