@@ -52,10 +52,10 @@ export const OrderCard: React.FC<OrderCardProps> = ({
   
   if (elapsedPercentage >= 70 && elapsedPercentage < 100) {
     colorClass = 'bg-warning-100 border-warning-500 text-warning-800 dark:bg-warning-900/30 dark:border-warning-700 dark:text-warning-400 pulse-alert';
-    statusText = 'Apurarse';
+    statusText = 'Atención';
   } else if (elapsedPercentage >= 100) {
     colorClass = 'bg-danger-100 border-danger-500 text-danger-800 dark:bg-danger-900/30 dark:border-danger-700 dark:text-danger-400 pulse-alert';
-    statusText = 'Retrasado';
+    statusText = 'Alerta';
   }
   
   const timeLeft = totalPrepTime - elapsedMs;
@@ -67,10 +67,10 @@ export const OrderCard: React.FC<OrderCardProps> = ({
     <div className={`rounded-lg border-l-4 p-4 shadow-md transition-all ${colorClass}`}>
       <div className="flex items-center justify-between mb-3">
         <div>
-          <h3 className="font-semibold">
+          <h3 className="font-semibold text-base md:sm:text-lg">
             {tableNumber ? `Mesa ${tableNumber}` : customerName || 'Orden para llevar'}
           </h3>
-          <p className="text-xs opacity-75">
+          <p className="text-xs sm:text-sm opacity-75">
             Orden #{id.substring(0, 8)}
           </p>
         </div>
@@ -78,12 +78,12 @@ export const OrderCard: React.FC<OrderCardProps> = ({
         <div className="flex flex-col items-end">
           <div className="flex items-center space-x-1">
             <Clock className="h-4 w-4" />
-            <span className="text-sm font-medium">
+            <span className="text-xs sm:text-sm font-medium">
               {statusText}: {formattedTimeLeft}
             </span>
           </div>
-          <p className="text-xs opacity-75">
-            Comenzó: {formatDistance(createdAt, now, { addSuffix: true, locale: es })}
+          <p className="text-xs sm:text-xs opacity-75">
+            Recibida: {formatDistance(createdAt, now, { addSuffix: true, locale: es })}
           </p>
         </div>
       </div>
@@ -91,8 +91,8 @@ export const OrderCard: React.FC<OrderCardProps> = ({
       <ul className="space-y-2 mb-4">
         {items.map((item) => (
           <li key={item.id} className="flex justify-between">
-            <span className="font-medium">{item.quantity}x {item.name}</span>
-            <span className="text-sm">
+            <span className="font-medium text-sm sm:text-base">{item.quantity}x {item.name}</span>
+            <span className="text-xs sm:text-sm">
               {formatDistance(0, item.preparationTime * 60 * 1000, { includeSeconds: false, locale: es })}
             </span>
           </li>
@@ -115,7 +115,7 @@ export const OrderCard: React.FC<OrderCardProps> = ({
         className="btn bg-white text-gray-800 hover:bg-gray-100 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 w-full flex items-center justify-center"
       >
         <Check className="h-4 w-4 mr-2" />
-        Marcar como Servido
+        Servido
       </button>
     </div>
   );
