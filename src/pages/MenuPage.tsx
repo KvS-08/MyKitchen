@@ -19,7 +19,9 @@ const MenuPage: React.FC = () => {
             return formattedDate; // Fallback if split fails
           })()}
         </h1>
-        <ThemeToggle />
+        <div className="hidden md:block">
+          <ThemeToggle />
+        </div>
       </div>
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-bold">Menú</h2>
