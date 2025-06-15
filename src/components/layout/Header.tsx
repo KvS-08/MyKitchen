@@ -39,6 +39,16 @@ export const Header: React.FC = () => {
       ${collapsed ? 'left-16' : 'md:left-48 left-0'}
     `}>
       <div className="flex items-center gap-4">
+        {user?.business?.logo_url ? (
+          <img 
+            src={user.business.logo_url} 
+            alt="Logo del negocio" 
+            className="h-8 w-8 object-cover rounded-md"
+          />
+        ) : (
+          <ChefHat className="h-8 w-8 text-primary-600 dark:text-primary-400" />
+        )}
+
         <Link to="/" className="text-gray-600 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400">
           <MdDashboardCustomize className="h-6 w-6" />
         </Link>
@@ -54,9 +64,7 @@ export const Header: React.FC = () => {
         <Link to="/menu" className="text-gray-600 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400">
           <BsFillMenuButtonWideFill className="h-6 w-6" />
         </Link>
-        <Link to="/inventory" className="text-gray-600 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400">
-          <FaBoxesPacking className="h-6 w-6" />
-        </Link>
+
       </div>
 
       
@@ -86,6 +94,10 @@ export const Header: React.FC = () => {
                 </p>
               </div>
 
+              <Link to="/inventory" className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700">
+                <FaBoxesPacking className="h-4 w-4" />
+                Inventario
+              </Link>
               <Link to="/reports" className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700">
                 <FaChartColumn className="h-4 w-4" />
                 Reportes
