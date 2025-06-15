@@ -17,6 +17,18 @@
   
   body {
     @apply bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100 min-h-screen;
+    color-scheme: light dark;
+  }
+
+  /* Estilo para el icono del calendario en inputs de tipo date */
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(0.5) sepia(1) saturate(5) hue-rotate(175deg) brightness(0.5);
+    /* Esto debería hacer el icono oscuro en modo claro */
+  }
+
+  .dark input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1) sepia(1) saturate(5) hue-rotate(175deg) brightness(0.5);
+    /* Esto debería hacer el icono claro en modo oscuro */
   }
 
   h1, h2, h3, h4, h5, h6 {
