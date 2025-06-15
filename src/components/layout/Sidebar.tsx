@@ -1,7 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import {
-  LogOut,
   Building2,
   ChefHat
 } from 'lucide-react';
@@ -77,7 +76,7 @@ export const Sidebar: React.FC = () => {
               <h1 className="text-xs md:text-lg font-bold text-primary-600 dark:text-primary-400 truncate">
                 {user?.business?.name || 'My Kitchen'}
               </h1>
-            </div>
+              </div>
           )}
         </div>
         
@@ -101,7 +100,7 @@ export const Sidebar: React.FC = () => {
               <NavItem to="/inventory" icon={FaBoxesPacking} label="Inventario" />
               <NavItem to="/reports" icon={FaChartColumn} label="Reportes" />
 
-              <NavItem to="/settings" icon={IoSettingsSharp} label="Opciones" />
+
             </>
           )}
           
@@ -109,16 +108,10 @@ export const Sidebar: React.FC = () => {
             <NavItem to="/businesses" icon={Building2} label="Negocios" />
           )}
         </nav>
-        
         <div className="p-3 border-t border-gray-200 dark:border-gray-800">
-          <button 
-            onClick={signOut}
-            className="flex items-center gap-3 w-full px-3 py-2 text-sm text-red-600 rounded-md hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/20"
-          >
-            <LogOut className="h-5 w-5 flex-shrink-0" />
-            {!collapsed && <span>Cerrar Sesión</span>}
-          </button>
+          <NavItem to="/settings" icon={IoSettingsSharp} label="Opciones" />
         </div>
+
       </div>
     </aside>
   );
