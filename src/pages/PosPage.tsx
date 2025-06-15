@@ -383,7 +383,7 @@ const PosPage: React.FC = () => {
                     <th className="px-1 py-1 sm:px-2 sm:py-1 md:px-3 md:py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider hidden sm:table-cell">Notas</th>
                     <th className="px-1 py-1 sm:px-2 sm:py-1 md:px-3 md:py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Estado</th>
                     <th className="px-0 py-1 sm:px-2 sm:py-1 md:px-3 md:py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Valor</th>
-                    <th className="px-0 py-1 sm:px-2 sm:py-1 md:px-3 md:py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider hidden sm:table-cell">Tipo Pago</th>
+                    <th className="px-0 py-1 sm:px-2 sm:py-1 md:px-3 md:py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider hidden sm:table-cell">Pago</th>
                     <th className="px-0 py-1 sm:px-2 sm:py-1 md:px-3 md:py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider hidden sm:table-cell">Factura</th>
                   </tr>
                 </thead>
