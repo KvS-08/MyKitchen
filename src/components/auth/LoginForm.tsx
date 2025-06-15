@@ -33,21 +33,21 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onShowRegister }) => {
   };
   
   return (
-    <div className="w-full max-w-sm p-8 space-y-6 bg-white rounded-lg shadow-md dark:bg-gray-800">
+    <div className="w-full max-w-sm p-8 space-y-5 bg-white rounded-lg shadow-md dark:bg-gray-800">
       <div className="text-center">
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
           Iniciar Sesión
         </h1>
       </div>
       
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         {errors.root && (
           <div className="p-3 text-sm text-danger-800 bg-danger-100 rounded-md dark:text-danger-400 dark:bg-danger-900/30">
             {errors.root.message}
           </div>
         )}
         
-        <div className="space-y-2">
+        <div className="space-y-1">
           <label htmlFor="email" className="label">
             Correo electrónico
           </label>
@@ -75,7 +75,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onShowRegister }) => {
           )}
         </div>
         
-        <div className="space-y-2">
+        <div className="space-y-1">
           <label htmlFor="password" className="label">
             Contraseña
           </label>
@@ -111,12 +111,12 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onShowRegister }) => {
               className="h-4 w-4 rounded border-green-300 text-green-600 focus:ring-green-500"
               disabled={loading}
             />
-            <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700 dark:text-gray-300">
+            <label htmlFor="remember-me" className="ml-1 block text-sm text-gray-700 dark:text-gray-300">
               Recordarme
             </label>
           </div>
           
-          <a href="#" className="text-sm font-medium text-primary-600 hover:text-primary-500 dark:text-primary-400">
+          <a href="#" className="ml-13 text-xs md:text-sm font-medium text-primary-600 hover:text-primary-500 dark:text-primary-400">
             ¿Olvidaste tu contraseña?
           </a>
         </div>
