@@ -168,26 +168,26 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onBackToLogin }) => 
 
       </div>
       
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         {errors.root && (
           <div className="p-3 text-sm text-danger-800 bg-danger-100 rounded-md dark:text-danger-400 dark:bg-danger-900/30">
             {errors.root.message}
           </div>
         )}
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div className="grid grid-cols-2 md:grid-cols-2 gap-3">
           <div className="space-y-1">
             <label htmlFor="businessName" className="label">
-              Nombre de tu negocio
+              Nombre del negocio
             </label>
             <div className="relative">
-              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+              <div className="absolute inset-y-0 left-0 flex items-center pl-2 pointer-events-none">
                 <Building2 className="h-5 w-5 text-gray-400" />
               </div>
               <input
                 id="businessName"
                 type="text"
-                className={`input pl-10 w-full ${errors.businessName ? 'border-red-500' : ''}`}
+                className={`input pl-8 w-full ${errors.businessName ? 'border-red-500' : ''}`}
                 placeholder="Restaurante El Buen Sabor"
                 disabled={loading}
                 {...register('businessName', {
@@ -211,13 +211,13 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onBackToLogin }) => 
               Tu Nombre Completo
             </label>
             <div className="relative">
-              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+              <div className="absolute inset-y-0 left-0 flex items-center pl-2 pointer-events-none">
                 <User className="h-5 w-5 text-gray-400" />
               </div>
               <input
                 id="ownerName"
                 type="text"
-                className={`input pl-10 w-full ${errors.ownerName ? 'border-red-500' : ''}`}
+                className={`input pl-8 w-full ${errors.ownerName ? 'border-red-500' : ''}`}
                 placeholder="Juan Pérez"
                 disabled={loading}
                 {...register('ownerName', {
@@ -237,19 +237,19 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onBackToLogin }) => 
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <div className="space-y-2">
+        <div className="grid grid-cols-2 md:grid-cols-2 gap-3">
+          <div className="space-y-1">
             <label htmlFor="email" className="label">
               Correo Electrónico
             </label>
             <div className="relative">
-              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+              <div className="absolute inset-y-0 left-0 flex items-center pl-2 pointer-events-none">
                 <Mail className="h-5 w-5 text-gray-400" />
               </div>
               <input
                 id="email"
                 type="email"
-                className={`input pl-10 w-full ${errors.email ? 'border-red-500' : ''}`}
+                className={`input pl-8 w-full ${errors.email ? 'border-red-500' : ''}`}
                 placeholder="correo@ejemplo.com"
                 disabled={loading}
                 {...register('email', {
@@ -268,14 +268,14 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onBackToLogin }) => 
             </div>
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-1">
             <label htmlFor="phone" className="label">
-              Número de Teléfono
+              Número Móvil
             </label>
             <div className="flex">
               <select
                 {...register('countryCode')}
-                className="input rounded-r-none border-r-0 pl-0 w-17"
+                className="input rounded-r-none border-r-0 pl-0 w-12.1"
                 disabled={loading}
               >
                 {COUNTRY_CODES.map((country) => (
@@ -285,14 +285,14 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onBackToLogin }) => 
                 ))}
               </select>
               <div className="relative flex-grow">
-                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                  <Phone className="h-4 w-4 text-gray-400" />
+                <div className="absolute inset-y-0 -left-1.5 flex items-center pl-3 pointer-events-none">
+                  <Phone className="h-3 w-3 text-gray-400" />
                 </div>
                 <input
                   id="phone"
                   type="number"
                   pattern="[0-9]*"
-                  className={`input pl-8 w-full rounded-l-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${errors.phone ? 'border-red-500' : ''}`}
+                  className={`input pl-6 w-full rounded-l-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${errors.phone ? 'border-red-500' : ''}`}
                   placeholder="Ej: 9876-5432"
                   disabled={loading}
                   {...register('phone', {
@@ -313,19 +313,19 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onBackToLogin }) => 
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-2">
+          <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
+            <div className="space-y-1">
               <label htmlFor="password" className="label">
                 Contraseña
               </label>
               <div className="relative">
-              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+              <div className="absolute inset-y-0 left-0 flex items-center pl-2 pointer-events-none">
                 <Lock className="h-5 w-5 text-gray-400" />
               </div>
               <input
                 id="password"
                 type="password"
-                className={`input pl-10 w-full ${errors.password ? 'border-red-500' : ''}`}
+                className={`input pl-8 w-full ${errors.password ? 'border-red-500' : ''}`}
                 placeholder="••••••••"
                 disabled={loading}
                 {...register('password', {
@@ -344,18 +344,18 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onBackToLogin }) => 
               </div>
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-1">
               <label htmlFor="confirmPassword" className="label">
-                Confirmar Contraseña
+                Confirmarla
               </label>
               <div className="relative">
-              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+              <div className="absolute inset-y-0 left-0 flex items-center pl-2 pointer-events-none">
                 <Lock className="h-5 w-5 text-gray-400" />
               </div>
               <input
                 id="confirmPassword"
                 type="password"
-                className={`input pl-10 w-full ${errors.confirmPassword ? 'border-red-500' : ''}`}
+                className={`input pl-8 w-full ${errors.confirmPassword ? 'border-red-500' : ''}`}
                 placeholder="••••••••"
                 disabled={loading}
                 {...register('confirmPassword', {
@@ -373,14 +373,14 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onBackToLogin }) => 
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row sm:justify-center gap-4">
+          <div className="flex flex-col-1 sm:flex-row sm:justify-center gap-4">
             <button
             type="button"
             onClick={onBackToLogin}
             className="btn-secondary w-full flex items-center justify-center"
             disabled={loading}
           >
-            <ArrowLeft className="h-4 w-4 mr-2" /> Volver al Login
+            <ArrowLeft className="h-4 w-4 mr-0" /> Volver al Login
           </button>
           <button
             type="submit"
