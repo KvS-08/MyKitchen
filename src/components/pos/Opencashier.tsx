@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { FaTimes } from 'react-icons/fa';
-import { GiMoneyStack } from 'react-icons/gi';
 import { useAuth } from '../../hooks/useAuth';
+import { useBusinessSettings } from '../../hooks/useBusinessSettings';
 
 interface OpencashierProps {
   isOpen: boolean;
@@ -11,6 +11,8 @@ interface OpencashierProps {
 
 const Opencashier: React.FC<OpencashierProps> = ({ isOpen, onClose, onSave }) => {
   const { user } = useAuth();
+  const { settings } = useBusinessSettings();
+  const currencySymbol = settings?.currencySymbol || '$'; // Default to '$' if not available
   const [cashierDateTime, setCashierDateTime] = useState('');
   const [cashierName, setCashierName] = useState<string>('');
   const [cashInDrawer, setCashInDrawer] = useState<number | string>('');
@@ -101,6 +103,11 @@ const Opencashier: React.FC<OpencashierProps> = ({ isOpen, onClose, onSave }) =>
             Efectivo en Caja
           </label>
           <div className="relative mt-1">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <span className="text-gray-500 dark:text-gray-400 sm:text-sm">
+                {currencySymbol}
+              </span>
+            </div>
             <input
               type="number"
               id="cashInDrawer"
@@ -111,19 +118,23 @@ const Opencashier: React.FC<OpencashierProps> = ({ isOpen, onClose, onSave }) =>
               value={cashInDrawer}
               onChange={(e) => setCashInDrawer(e.target.value)}
             />
-            <GiMoneyStack className="absolute left-2 top-1/2 transform -translate-y-1/2 text-green-500" />
+            
           </div>
         </div>
 
-        <hr className="my-4 border-gray-300 dark:border-gray-600" />
+        {cashierDateTime && cashierName && cashInDrawer ? (
+          <hr className="my-4 border-gray-300 dark:border-gray-600" />
+        ) : null}
         
         <div className="flex justify-end space-x-3">
-          <button
-            onClick={handleOpenCashier}
-            className="text-green-500 hover:text-green-500 dark:text-green-400 dark:hover:text-green-400"
-          >
-            Aperturar
-          </button>
+          {cashierDateTime && cashierName && cashInDrawer ? (
+            <button
+              onClick={handleOpenCashier}
+              className="text-green-500 hover:text-green-500 dark:text-green-400 dark:hover:text-green-400"
+            >
+              Aperturar
+            </button>
+          ) : null}
         </div>
       </div>
     </div>
