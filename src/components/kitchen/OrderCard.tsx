@@ -117,14 +117,14 @@ export const OrderCard: React.FC<OrderCardProps> = ({
       <div className="flex space-x-2">
         <button 
           onClick={() => onCancel(id)}
-          className="btn bg-white text-gray-800 hover:bg-gray-100 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 w-full flex items-center justify-center sm:w-auto"
+          className="btn bg-white text-gray-800 hover:bg-gray-100 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 flex-1 flex items-center justify-center"
         >
           <IoMdTrash className="h-4 w-4 text-danger-500 sm:hidden" />
           <span className="hidden sm:inline">Cancelar</span>
         </button>
         <button 
           onClick={() => onComplete(id)}
-          className="btn bg-white text-gray-800 hover:bg-gray-100 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 w-full flex items-center justify-center sm:w-auto"
+          className="btn bg-white text-gray-800 hover:bg-gray-100 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 flex-1 flex items-center justify-center"
         >
           <FaCheckCircle className="h-4 w-4 text-success-500 sm:hidden" />
           <span className="hidden sm:inline">Servido</span>
