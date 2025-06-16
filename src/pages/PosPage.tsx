@@ -274,8 +274,8 @@ const PosPage: React.FC = () => {
           <div className="flex space-x-2 justify-center lg:justify-end">
             <button 
               className={`px-3 py-1 text-sm rounded-md ${
-                activeView === 'aperturas' ? 'text-blue-600' : 'text-black dark:text-white'
-              } hover:text-gray-300 flex items-center justify-center gap-2`} 
+                activeView === 'aperturas' ? 'text-blue-600 hover:text-blue-800' : 'text-gray-500 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'
+              } flex items-center justify-center gap-2`} 
               onClick={() => setActiveView('aperturas')}
             >
               <TbCashRegister className="text-xl" /> 
@@ -306,7 +306,7 @@ const PosPage: React.FC = () => {
           {activeView === 'aperturas' && (
             <div className="overflow-x-auto w-full">
               <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                <thead className="bg-gray-50 dark:bg-gray-700">
+                <thead className="bg-gray-200 dark:bg-gray-700">
                   <tr>
                     <th className="px-1 py-1 sm:px-2 sm:py-2 md:px-3 md:py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Fecha</th>
                     <th className="px-1 py-1 sm:px-2 sm:py-2 md:px-3 md:py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Cajero</th>
@@ -372,7 +372,7 @@ const PosPage: React.FC = () => {
           {activeView === 'ventas' && (
             <div className="overflow-x-auto w-full">
               <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                <thead className="bg-gray-50 dark:bg-gray-700">
+                <thead className="bg-gray-200 dark:bg-gray-700">
                   <tr>
                     <th className="px-0 py-0 sm:px-0 sm:py-1 md:px-3 md:py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Fecha</th>
                     <th className="px-0 py-1 sm:px-2 sm:py-1 md:px-3 md:py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider hidden sm:table-cell">Cajero</th>
@@ -446,7 +446,7 @@ const PosPage: React.FC = () => {
           {activeView === 'gastos' && (
             <div className="overflow-x-auto w-full">
               <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                <thead className="bg-gray-50 dark:bg-gray-700">
+                <thead className="bg-gray-200 dark:bg-gray-700">
                   <tr>
                     <th className="px-1 py-1 sm:px-2 sm:py-2 md:px-3 md:py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Fecha</th>
                     <th className="px-1 py-1 sm:px-2 sm:py-2 md:px-3 md:py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Tipo</th>
