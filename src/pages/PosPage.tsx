@@ -240,7 +240,7 @@ const PosPage: React.FC = () => {
         {/* Sección de Ventas */}
         <div
           className="bg-white dark:bg-gray-800 p-2 lg:p-4 rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-shadow"
-          onClick={() => navigate('/sales')}
+          onClick={() => navigate('/salespage')}
         >
           <h2 className="text-xl sm:text-2xl font-semibold mb-4 flex sm:justify-between sm:items-center flex-col sm:flex-row">
             <span className="hidden sm:inline">Realizar una Venta</span>
