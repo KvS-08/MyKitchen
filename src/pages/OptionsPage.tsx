@@ -18,6 +18,15 @@ import { es } from 'date-fns/locale';
 import { ThemeToggle } from '../components/ui/ThemeToggle';
 import ColorPicker from '../components/ui/ColorPicker';
 
+interface Employee {
+  id: string;
+  email: string;
+  full_name: string;
+  role: 'admin' | 'cashier' | 'chef';
+  is_active: boolean;
+  created_at: string;
+}
+
 const OptionsPage: React.FC = () => {
   const { user } = useAuth();
   const [isBusinessInfoOpen, setIsBusinessInfoOpen] = useState(false);
@@ -45,6 +54,9 @@ const OptionsPage: React.FC = () => {
   const [employeeName, setEmployeeName] = useState<string>('');
   const [employeeRole, setEmployeeRole] = useState<string>('');
   const [employeeEmail, setEmployeeEmail] = useState<string>('');
+  const [employees, setEmployees] = useState<Employee[]>([]);
+  const [loadingEmployees, setLoadingEmployees] = useState(false);
+  const [savingEmployee, setSavingEmployee] = useState(false);
 
   // Regional format states
   const [isRegionalFormatOpen, setIsRegionalFormatOpen] = useState(false);
@@ -163,6 +175,7 @@ const OptionsPage: React.FC = () => {
   useEffect(() => {
     if (user?.business_id) {
       loadBusinessData();
+      loadEmployees();
     }
   }, [user?.business_id]);
 
@@ -227,6 +240,155 @@ const OptionsPage: React.FC = () => {
       toast.error('Error al cargar los datos del negocio');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const loadEmployees = async () => {
+    if (!user?.business_id) return;
+
+    setLoadingEmployees(true);
+    try {
+      const { data, error } = await supabase
+        .from('users')
+        .select('id, email, full_name, role, is_active, created_at')
+        .eq('business_id', user.business_id)
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('Error loading employees:', error);
+        toast.error('Error al cargar los empleados');
+        return;
+      }
+
+      setEmployees(data || []);
+    } catch (error) {
+      console.error('Error loading employees:', error);
+      toast.error('Error al cargar los empleados');
+    } finally {
+      setLoadingEmployees(false);
+    }
+  };
+
+  const handleAddEmployee = async () => {
+    if (!employeeName.trim() || !employeeRole || !employeeEmail.trim()) {
+      toast.error('Por favor completa todos los campos');
+      return;
+    }
+
+    if (!user?.business_id) {
+      toast.error('No se encontró información del negocio');
+      return;
+    }
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(employeeEmail)) {
+      toast.error('Por favor ingresa un email válido');
+      return;
+    }
+
+    setSavingEmployee(true);
+    try {
+      // Check if email already exists
+      const { data: existingUser, error: checkError } = await supabase
+        .from('users')
+        .select('id')
+        .eq('email', employeeEmail.trim())
+        .single();
+
+      if (checkError && checkError.code !== 'PGRST116') {
+        console.error('Error checking existing user:', checkError);
+        toast.error('Error al verificar el usuario');
+        return;
+      }
+
+      if (existingUser) {
+        toast.error('Ya existe un usuario con este email');
+        return;
+      }
+
+      // Create auth user first
+      const { data: authData, error: authError } = await supabase.auth.signUp({
+        email: employeeEmail.trim(),
+        password: 'TempPassword123!', // Temporary password - user should change it
+        options: {
+          data: {
+            full_name: employeeName.trim(),
+          }
+        }
+      });
+
+      if (authError) {
+        console.error('Error creating auth user:', authError);
+        toast.error('Error al crear el usuario: ' + authError.message);
+        return;
+      }
+
+      if (!authData.user) {
+        toast.error('No se pudo crear el usuario');
+        return;
+      }
+
+      // Create user profile
+      const { data: newUser, error: userError } = await supabase
+        .from('users')
+        .insert({
+          id: authData.user.id,
+          email: employeeEmail.trim(),
+          full_name: employeeName.trim(),
+          role: employeeRole as 'admin' | 'cashier' | 'chef',
+          business_id: user.business_id,
+          is_active: true,
+        })
+        .select('id, email, full_name, role, is_active, created_at')
+        .single();
+
+      if (userError) {
+        console.error('Error creating user profile:', userError);
+        toast.error('Error al crear el perfil del usuario');
+        return;
+      }
+
+      // Add to local state
+      setEmployees(prev => [newUser, ...prev]);
+      
+      // Clear form
+      setEmployeeName('');
+      setEmployeeRole('');
+      setEmployeeEmail('');
+      
+      toast.success('Empleado agregado correctamente');
+    } catch (error) {
+      console.error('Error adding employee:', error);
+      toast.error('Error al agregar el empleado');
+    } finally {
+      setSavingEmployee(false);
+    }
+  };
+
+  const handleDeleteEmployee = async (employeeId: string) => {
+    if (!confirm('¿Estás seguro de que quieres eliminar este empleado?')) {
+      return;
+    }
+
+    try {
+      const { error } = await supabase
+        .from('users')
+        .update({ is_active: false })
+        .eq('id', employeeId);
+
+      if (error) {
+        console.error('Error deactivating employee:', error);
+        toast.error('Error al desactivar el empleado');
+        return;
+      }
+
+      // Update local state
+      setEmployees(prev => prev.filter(emp => emp.id !== employeeId));
+      toast.success('Empleado desactivado correctamente');
+    } catch (error) {
+      console.error('Error deleting employee:', error);
+      toast.error('Error al eliminar el empleado');
     }
   };
 
@@ -367,6 +529,19 @@ const OptionsPage: React.FC = () => {
 
   const toggleRegionalFormat = () => {
     setIsRegionalFormatOpen(!isRegionalFormatOpen);
+  };
+
+  const getRoleDisplayName = (role: string) => {
+    switch (role) {
+      case 'admin':
+        return 'Administrador';
+      case 'cashier':
+        return 'Cajero';
+      case 'chef':
+        return 'Cocinero';
+      default:
+        return role;
+    }
   };
 
   return (
@@ -677,6 +852,7 @@ const OptionsPage: React.FC = () => {
                     value={employeeName} 
                     onChange={(e) => setEmployeeName(e.target.value)}
                     placeholder="Nombre completo"
+                    disabled={savingEmployee}
                   />
                 </div>
               </div>
@@ -691,11 +867,11 @@ const OptionsPage: React.FC = () => {
                     className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-6 text-sm py-1" 
                     value={employeeRole} 
                     onChange={(e) => setEmployeeRole(e.target.value)}
+                    disabled={savingEmployee}
                   >
                     <option value="">Seleccione un rol</option>
-                    <option value="admin">Admin</option>
+                    <option value="admin">Administrador</option>
                     <option value="cashier">Cajero</option>
-                    <option value="waiter">Mesero</option> {/* Corrected from cashier to waiter based on common roles */}
                     <option value="chef">Cocinero</option>
                   </select>
                 </div>
@@ -713,44 +889,85 @@ const OptionsPage: React.FC = () => {
                     value={employeeEmail} 
                     onChange={(e) => setEmployeeEmail(e.target.value)}
                     placeholder="correo@ejemplo.com"
+                    disabled={savingEmployee}
                   />
                 </div>
               </div>
             </div>
+            
             {/* Employee Table */}
             <div className="mt-6">
               <div className="flex items-center">
                 <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">Lista de Empleados</h3>
                 {(employeeName && employeeRole && employeeEmail) && (
-                  <button className="text-green-500 hover:text-green-600 ml-auto">
-                    Agregar
+                  <button 
+                    onClick={handleAddEmployee}
+                    disabled={savingEmployee}
+                    className="text-green-500 hover:text-green-600 ml-auto disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {savingEmployee ? 'Agregando...' : 'Agregar'}
                   </button>
                 )}
               </div>
-              <div className="overflow-x-auto mt-2">
-                <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                  <thead className="bg-gray-50 dark:bg-gray-700">
-                    <tr>
-                      <th scope="col" className="px-3 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider sm:w-1/3">
-                        Nombre
-                      </th>
-                      <th scope="col" className="px-0 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider sm:w-1/6">
-                        Rol
-                      </th>
-                      <th scope="col" className="px-7 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider sm:w-1/3">
-                        Email
-                      </th>
-                      <th scope="col" className="px-0 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider sm:w-1/12">
-                        Acciones
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                    {/* Employee data will be dynamically loaded here */}
-                    {/* Add more rows as needed */}
-                  </tbody>
-                </table>
-              </div>
+              
+              {loadingEmployees ? (
+                <div className="flex justify-center items-center py-8">
+                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary-600"></div>
+                  <span className="ml-2 text-gray-600 dark:text-gray-400">Cargando empleados...</span>
+                </div>
+              ) : (
+                <div className="overflow-x-auto mt-2">
+                  <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                    <thead className="bg-gray-50 dark:bg-gray-700">
+                      <tr>
+                        <th scope="col" className="px-3 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider sm:w-1/3">
+                          Nombre
+                        </th>
+                        <th scope="col" className="px-0 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider sm:w-1/6">
+                          Rol
+                        </th>
+                        <th scope="col" className="px-7 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider sm:w-1/3">
+                          Email
+                        </th>
+                        <th scope="col" className="px-0 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider sm:w-1/12">
+                          Acciones
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                      {employees.map((employee) => (
+                        <tr key={employee.id}>
+                          <td className="px-3 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                            {employee.full_name}
+                          </td>
+                          <td className="px-0 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                            {getRoleDisplayName(employee.role)}
+                          </td>
+                          <td className="px-7 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                            {employee.email}
+                          </td>
+                          <td className="px-0 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            <button
+                              onClick={() => handleDeleteEmployee(employee.id)}
+                              className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
+                              title="Desactivar empleado"
+                            >
+                              <MdDelete className="h-5 w-5" />
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                      {employees.length === 0 && (
+                        <tr>
+                          <td colSpan={4} className="px-3 py-4 text-center text-sm text-gray-500 dark:text-gray-300">
+                            No hay empleados registrados
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              )}
             </div>
           </div>
         )}
@@ -817,7 +1034,7 @@ const OptionsPage: React.FC = () => {
                         setHasRegionalFormatChanged(true);
                       }
                     }}
-                  >en el
+                  >
                     <option value="">Tpo de Hora</option>
                     <option value="HH:mm">HH:mm (24h)</option>
                     <option value="hh:mm A">hh:mm AM/PM (12h)</option>
