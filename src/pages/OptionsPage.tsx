@@ -6,7 +6,7 @@ import { IoMdBusiness } from 'react-icons/io';
 import { FaMapLocationDot, FaTreeCity } from 'react-icons/fa6';
 import { BiWorld, BiSolidBank } from 'react-icons/bi';
 import { MdOutlineEmail } from 'react-icons/md';
-import { HiColorSwatch } from 'react-icons/hi';
+
 import { BsCurrencyExchange, BsFillInfoCircleFill, BsCalendarDateFill } from 'react-icons/bs';
 import { FaUserGear, FaUserPlus } from 'react-icons/fa6';
 import { FaPhoneAlt, FaUpload } from 'react-icons/fa';
@@ -16,7 +16,7 @@ import toast from 'react-hot-toast';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { ThemeToggle } from '../components/ui/ThemeToggle';
-import ColorPicker from '../components/ui/ColorPicker';
+
 
 interface Employee {
   id: string;
@@ -105,7 +105,7 @@ const OptionsPage: React.FC = () => {
   const handleDeleteReminder = (indexToDelete: number) => {
     setReminders(currentReminders => currentReminders.filter((_, index) => index !== indexToDelete));
   };
-  const [appThemeColor, setAppThemeColor] = useState<string>('#000000');
+
   const [notificationType, setNotificationType] = useState('');
   const [voiceType, setVoiceType] = useState('');
 
@@ -117,10 +117,7 @@ const OptionsPage: React.FC = () => {
     setIsRecordatoriosOpen(!isRecordatoriosOpen);
   };
 
-  const handleAppThemeColorChange = (color: string) => {
-    setAppThemeColor(color);
-    setHasBusinessInfoChanged(true);
-  };
+
   const [dateFormat, setDateFormat] = useState<string>('');
   const [timeFormat, setTimeFormat] = useState<string>('');
   const [currencyFormat, setCurrencyFormat] = useState<string>('');
@@ -1219,7 +1216,7 @@ const OptionsPage: React.FC = () => {
           className="flex items-center justify-between w-full p-4 text-lg font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-t-lg"
         >
           <div className="flex items-center">
-            <HiColorSwatch className="h-5 w-5 mr-2" />
+
             <span>Personalizar App</span>
           </div>
             {isCustomizeAppOpen ? (
@@ -1232,12 +1229,7 @@ const OptionsPage: React.FC = () => {
             <div className="p-4 border-t border-gray-200 dark:border-gray-700">
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                 {/* App Theme Color Picker */}
-                <div className="w-full">
-                  <label htmlFor="appThemeColor" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Color del sidebar
-                  </label>
-                  <ColorPicker color={appThemeColor} onChange={handleAppThemeColorChange} />
-                </div>
+
 
                 {/* Notification Type */} 
                 <div>
