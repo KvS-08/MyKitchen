@@ -784,7 +784,7 @@ const OptionsPage: React.FC = () => {
                       </label>
                       <div className="relative mt-1 flex items-center">
                         {phoneNumberPrefix && (
-                            <span className="text-gray-500 dark:text-gray-400 text-sm bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded-md mr-0.5">
+                            <span className="text-gray-500 dark:text-gray-200 text-sm bg-gray-100 dark:bg-gray-700 px-1.5 py-1 rounded-md mr-0.5">
                               {phoneNumberPrefix}
                             </span>
                           )}
