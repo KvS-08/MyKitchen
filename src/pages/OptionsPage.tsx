@@ -589,18 +589,18 @@ const OptionsPage: React.FC = () => {
             ) : (
               <>
                 <div className="grid grid-cols-1 gap-3">
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
 
                     <div>
                       <label htmlFor="businessName" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                         Nombre del Negocio
                       </label>
                       <div className="relative mt-1">
-                        <MdOutlineDriveFileRenameOutline className="absolute left-1 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                        <MdOutlineDriveFileRenameOutline className="absolute left-1 top-1/2 transform -translate-y-1/2 text-gray-500" />
                         <input 
                           type="text" 
                           id="businessName" 
-                          className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-6 text-sm py-1" 
+                          className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-200 dark:bg-gray-700 dark:border-gray-600 text-gray-900 dark:text-white pl-6 text-sm py-1" 
                           value={businessName} 
                           onChange={(e) => handleFieldChange(setBusinessName)(e.target.value)}
                           placeholder="Nombre de tu negocio"
@@ -613,11 +613,11 @@ const OptionsPage: React.FC = () => {
                         Tipo de Negocio
                       </label>
                       <div className="relative mt-1">
-                        <IoMdBusiness className="absolute left-1 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                        <IoMdBusiness className="absolute left-1 top-1/2 transform -translate-y-1/2 text-gray-500" />
                         <input 
                           type="text" 
                           id="businessType" 
-                          className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-6 text-sm py-1" 
+                          className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-200 dark:bg-gray-700 dark:border-gray-600 text-gray-900 dark:text-white pl-6 text-sm py-1" 
                           value={businessType} 
                           onChange={(e) => handleFieldChange(setBusinessType)(e.target.value)}
                           placeholder="Ej: Restaurante, Cafetería"
@@ -660,7 +660,7 @@ const OptionsPage: React.FC = () => {
                   </div>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                   <div>
                     <label htmlFor="address" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                       Dirección
@@ -670,7 +670,7 @@ const OptionsPage: React.FC = () => {
                       <input 
                         type="text" 
                         id="address" 
-                        className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-6 text-sm py-1" 
+                        className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-200 dark:bg-gray-700 dark:border-gray-600 text-gray-900 dark:text-white pl-6 text-sm py-1" 
                         value={address} 
                         onChange={(e) => handleFieldChange(setAddress)(e.target.value)}
                         placeholder="Dirección completa"
@@ -687,7 +687,7 @@ const OptionsPage: React.FC = () => {
                       <input 
                         type="text" 
                         id="city" 
-                        className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-6 text-sm py-1" 
+                        className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-200 dark:bg-gray-700 dark:border-gray-600 text-gray-900 dark:text-white pl-6 text-sm py-1" 
                         value={city} 
                         onChange={(e) => handleFieldChange(setCity)(e.target.value)}
                         placeholder="Ciudad"
@@ -703,7 +703,7 @@ const OptionsPage: React.FC = () => {
                       <BiWorld className="absolute left-1 top-1/2 transform -translate-y-1/2 text-gray-400" />
                       <select 
                         id="country" 
-                        className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-5 text-sm py-1" 
+                        className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-200 dark:bg-gray-700 dark:border-gray-600 text-gray-900 dark:text-white pl-5 text-sm py-1" 
                         value={country} 
                         onChange={(e) => {
                           const selectedCountry = e.target.value;
@@ -743,7 +743,7 @@ const OptionsPage: React.FC = () => {
                   </div>
                   </div>
                   
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                     <div>
                       <label htmlFor="bankAccount" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                         Cuenta Bancaria
@@ -753,7 +753,7 @@ const OptionsPage: React.FC = () => {
                         <input 
                           type="text" 
                           id="bankAccount" 
-                          className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-6 text-sm py-1" 
+                          className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-200 dark:bg-gray-700 dark:border-gray-600 text-gray-900 dark:text-white pl-6 text-sm py-1" 
                           value={bankAccount} 
                           onChange={(e) => handleFieldChange(setBankAccount)(e.target.value)}
                           placeholder="Número de cuenta"
@@ -770,7 +770,7 @@ const OptionsPage: React.FC = () => {
                         <input 
                           type="email" 
                           id="email" 
-                          className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-6 text-sm py-1" 
+                          className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-200 dark:bg-gray-700 dark:border-gray-600 text-gray-900 dark:text-white pl-6 text-sm py-1" 
                           value={email} 
                           onChange={(e) => handleFieldChange(setEmail)(e.target.value)}
                           placeholder="correo@ejemplo.com"
@@ -784,7 +784,7 @@ const OptionsPage: React.FC = () => {
                       </label>
                       <div className="relative mt-1 flex items-center">
                         {phoneNumberPrefix && (
-                            <span className="text-gray-500 dark:text-gray-400 text-sm bg-gray-100 dark:bg-gray-600 px-2 py-1 rounded-md mr-0.5">
+                            <span className="text-gray-900 dark:text-gray-100 text-sm bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded-md mr-0.5">
                               {phoneNumberPrefix}
                             </span>
                           )}
@@ -793,7 +793,7 @@ const OptionsPage: React.FC = () => {
                             <input 
                               type="tel" 
                               id="phoneNumber" 
-                              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-6 text-sm py-1" 
+                              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-200 dark:bg-gray-700 dark:border-gray-600 text-gray-900 dark:text-white pl-6 text-sm py-1" 
                               value={phoneNumber} 
                               onChange={(e) => handleFieldChange(setPhoneNumber)(e.target.value)}
                               placeholder="Ej: 9876-5432"
@@ -848,7 +848,7 @@ const OptionsPage: React.FC = () => {
                   <input 
                     type="text" 
                     id="employeeName" 
-                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-6 text-sm py-1" 
+                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-200 dark:bg-gray-700 dark:border-gray-600 text-gray-900 dark:text-white pl-6 text-sm py-1" 
                     value={employeeName} 
                     onChange={(e) => setEmployeeName(e.target.value)}
                     placeholder="Nombre completo"
@@ -864,7 +864,7 @@ const OptionsPage: React.FC = () => {
                   <FaUserGear className="absolute left-1 top-1/2 transform -translate-y-1/2 text-gray-400" />
                   <select 
                     id="employeeRole" 
-                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-6 text-sm py-1" 
+                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-200 dark:bg-gray-700 dark:border-gray-600 text-gray-900 dark:text-white pl-6 text-sm py-1" 
                     value={employeeRole} 
                     onChange={(e) => setEmployeeRole(e.target.value)}
                     disabled={savingEmployee}
@@ -885,7 +885,7 @@ const OptionsPage: React.FC = () => {
                   <input 
                     type="email" 
                     id="employeeEmail" 
-                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-6 text-sm py-1" 
+                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-200 dark:bg-gray-700 dark:border-gray-600 text-gray-900 dark:text-white pl-6 text-sm py-1" 
                     value={employeeEmail} 
                     onChange={(e) => setEmployeeEmail(e.target.value)}
                     placeholder="correo@ejemplo.com"
@@ -896,7 +896,7 @@ const OptionsPage: React.FC = () => {
             </div>
             
             {/* Employee Table */}
-            <div className="mt-6">
+            <div className="mt-4">
               <div className="flex items-center">
                 <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">Lista de Empleados</h3>
                 {(employeeName && employeeRole && employeeEmail) && (
@@ -918,7 +918,7 @@ const OptionsPage: React.FC = () => {
               ) : (
                 <div className="overflow-x-auto mt-2">
                   <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                    <thead className="bg-gray-50 dark:bg-gray-700">
+                    <thead className="bg-gray-200 dark:bg-gray-700">
                       <tr>
                         <th scope="col" className="px-3 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider sm:w-1/3">
                           Nombre
@@ -937,16 +937,16 @@ const OptionsPage: React.FC = () => {
                     <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                       {employees.map((employee) => (
                         <tr key={employee.id}>
-                          <td className="px-3 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                          <td className="px-1 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-white">
                             {employee.full_name}
                           </td>
-                          <td className="px-0 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                          <td className="px-0 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">
                             {getRoleDisplayName(employee.role)}
                           </td>
-                          <td className="px-7 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                          <td className="px-7 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">
                             {employee.email}
                           </td>
-                          <td className="px-0 py-4 whitespace-nowrap text-right text-sm font-medium">
+                          <td className="px-0 py-4 whitespace-nowrap text-left text-sm font-medium">
                             <button
                               onClick={() => handleDeleteEmployee(employee.id)}
                               className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
@@ -997,10 +997,10 @@ const OptionsPage: React.FC = () => {
                   Formato de fecha
                 </label>
                 <div className="relative mt-1">
-                  <BsCalendarDateFill className="absolute left-1 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                  <BsCalendarDateFill className="absolute left-1 top-1/2 transform -translate-y-1/2 text-gray-500 h-4 w-4" />
                   <select
                     id="dateFormat"
-                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-6 text-xs py-1"
+                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-200 dark:bg-gray-700 dark:border-gray-600 text-gray-900 dark:text-white pl-6 text-sm py-1"
                     value={dateFormat}
                     onChange={(e) => {
                       const newValue = e.target.value;
@@ -1010,7 +1010,6 @@ const OptionsPage: React.FC = () => {
                       }
                     }}
                   >
-                    <option value="">Tipo de Fecha</option>
                     <option value="DD/MM/YYYY">DD/MM/YYYY</option>
                     <option value="MM/DD/YYYY">MM/DD/YYYY</option>
                     <option value="YYYY-MM-DD">YYYY-MM-DD</option>
@@ -1022,10 +1021,10 @@ const OptionsPage: React.FC = () => {
                   Formato de hora
                 </label>
                 <div className="relative mt-1">
-                  <Clock className="absolute left-1 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                  <Clock className="absolute left-1 top-1/2 transform -translate-y-1/2 text-gray-500 h-4 w-4" />
                   <select
                     id="timeFormat"
-                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-6 text-xs py-1"
+                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-200 dark:bg-gray-700 dark:border-gray-600 text-gray-900 dark:text-white pl-6 text-sm py-1"
                     value={timeFormat}
                     onChange={(e) => {
                       const newValue = e.target.value;
@@ -1035,7 +1034,6 @@ const OptionsPage: React.FC = () => {
                       }
                     }}
                   >
-                    <option value="">Tpo de Hora</option>
                     <option value="HH:mm">HH:mm (24h)</option>
                     <option value="hh:mm A">hh:mm AM/PM (12h)</option>
                   </select>
@@ -1046,10 +1044,10 @@ const OptionsPage: React.FC = () => {
                   Moneda de cobro
                 </label>
                 <div className="relative mt-1">
-                  <BsCurrencyExchange className="absolute left-1 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                  <BsCurrencyExchange className="absolute left-1 top-1/2 transform -translate-y-1/2 text-gray-500 h-4 w-4" />
                   <select 
                           id="currencyFormat" 
-                          className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-5 text-xs py-1" 
+                          className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-200 dark:bg-gray-700 dark:border-gray-600 text-gray-900 dark:text-white pl-6 text-sm py-1" 
                           value={currencyFormat} 
                           onChange={(e) => {
                             const newValue = e.target.value;
@@ -1125,7 +1123,7 @@ const OptionsPage: React.FC = () => {
           </button>
           {isRecordatoriosOpen && (
             <div className="p-4 border-t border-gray-200 dark:border-gray-700">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-2 gap-4">
                 <div>
                   <label htmlFor="eventName" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Evento
@@ -1133,7 +1131,7 @@ const OptionsPage: React.FC = () => {
                   <input
                     type="text"
                     id="eventName"
-                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-3 text-sm py-1"
+                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-200 dark:bg-gray-700 dark:border-gray-600 text-gray-900 dark:text-white pl-2 text-sm py-1"
                     value={eventName}
                     onChange={(e) => setEventName(e.target.value)}
                     placeholder="Nombre del evento"
@@ -1146,7 +1144,7 @@ const OptionsPage: React.FC = () => {
                   <input
                     type="date"
                     id="eventDate"
-                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-3 text-sm py-1"
+                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-200 dark:bg-gray-700 dark:border-gray-600 text-gray-900 dark:text-white pl-2 text-sm py-1"
                     value={eventDate}
                     onChange={(e) => setEventDate(e.target.value)}
                   />
@@ -1172,9 +1170,9 @@ const OptionsPage: React.FC = () => {
                 </div>
                 <div className="overflow-x-auto">
                   <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                    <thead className="bg-gray-50 dark:bg-gray-700">
+                    <thead className="bg-gray-200 dark:bg-gray-700">
                       <tr>
-                        <th scope="col" className="px-5 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider sm:w-1/3">
+                        <th scope="col" className="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider sm:w-1/3">
                           Evento
                         </th>
                         <th scope="col" className="px-6 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
@@ -1248,11 +1246,10 @@ const OptionsPage: React.FC = () => {
                   </label>
                   <select
                     id="notificationType"
-                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-3 text-xs py-1"
+                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-200 dark:bg-gray-700 dark:border-gray-600 text-gray-900 dark:text-white pl-2 text-sm py-1"
                     value={notificationType}
                     onChange={(e) => setNotificationType(e.target.value)}
                   >
-                    <option value="">Seleccionar Tipo</option>
                     <option value="email">Sonidos</option>
                     <option value="sms">Voz</option>
                   </select>
@@ -1265,11 +1262,10 @@ const OptionsPage: React.FC = () => {
                   </label>
                   <select
                     id="voiceType"
-                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white pl-3 text-xs py-1"
+                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-200 dark:bg-gray-700 dark:border-gray-600 text-gray-900 dark:text-white pl-2 text-sm py-1"
                     value={voiceType}
                     onChange={(e) => setVoiceType(e.target.value)}
                   >
-                    <option value="">Seleccionar Tipo</option>
                     <option value="male">Masculina</option>
                     <option value="female">Femenina</option>
                   </select>
