@@ -3,6 +3,7 @@ import { FaTimes } from 'react-icons/fa';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../hooks/useAuth';
 import { useBusinessSettings } from '../../hooks/useBusinessSettings';
+import Portal from '../ui/Portal';
 
 interface ClosecashierProps {
   isOpen: boolean;
@@ -115,143 +116,144 @@ const Closecashier: React.FC<ClosecashierProps> = ({ isOpen, onClose, onSave }) 
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg w-11/12 md:w-1/2 lg:w-1/3 relative">
-        <button
-          onClick={onClose}
-          className="absolute top-3 right-3 text-red-500 hover:text-red-700 dark:text-gray-400 dark:hover:text-red-500"
-        >
-          <FaTimes size={20} />
-        </button>
-        
-        <h2 className="text-xl font-bold mb-4 dark:text-white">Cerrar Caja</h2>
-        <hr className="mb-4 border-gray-300 dark:border-gray-600" />
-        
-        <div className="flex space-x-4 mb-4">
-          <div className="w-full">
-            <label htmlFor="closeTime" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-              Hora de Cierre
-            </label>
-            <input
-              type="time"
-              id="closeTime"
-              name="closeTime"
-              value={closeTime}
-              onChange={(e) => setCloseTime(e.target.value)}
-              className="mt-1 block w-full pl-2 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-100 text-gray-800 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-            />
-          </div>
-          
-          <div className="w-full">
-            <label htmlFor="expenses" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-              Gastos del Día
-            </label>
-            <div className="relative mt-1">
-              <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
-                <span className="text-gray-500 sm:text-sm">
-                  {currencySymbol}
-                </span>
-              </div>
-              <input
-                type="number"
-                id="expenses"
-                name="expenses"
-                className="mt-1 block w-full pl-8 pr-3 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-100 text-gray-800 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                placeholder="0.00"
-                step="0.01"
-                value={expenses.toFixed(2)}
-                readOnly
-              />
-            </div>
-          </div>
-        </div>
-        
-        <div className="flex space-x-4 mb-4">
-          <div className="w-full">
-            <label htmlFor="totalSales" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-              Venta del Día
-            </label>
-            <div className="relative mt-1">
-              <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
-                <span className="text-gray-500 sm:text-sm">
-                  {currencySymbol}
-                </span>
-              </div>
-              <input
-                type="number"
-                id="totalSales"
-                name="totalSales"
-                className="mt-1 block w-full pl-8 pr-3 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-100 text-gray-800 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                placeholder="0.00"
-                step="0.01"
-                value={totalSales.toFixed(2)}
-                readOnly
-              />
-            </div>
-          </div>
-          
-          <div className="w-full">
-            <label htmlFor="utility" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-              Utilidad del Día
-            </label>
-            <div className="relative mt-1">
-              <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
-                <span className="text-gray-500 sm:text-sm">
-                  {currencySymbol}
-                </span>
-              </div>
-              <input
-                type="number"
-                id="utility"
-                name="utility"
-                className="mt-1 block w-full pl-8 pr-3 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-100 text-gray-800 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                placeholder="0.00"
-                step="0.01"
-                value={utility.toFixed(2)}
-                readOnly
-              />
-            </div>
-          </div>
-        </div>
-        
-        <div className="flex space-x-4 mb-4">
-          <div className="w-full">
-            <label htmlFor="cashClose" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-              Efectivo en Caja
-            </label>
-            <div className="relative mt-1">
-              <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
-                <span className="text-gray-500 sm:text-sm">
-                  {currencySymbol}
-                </span>
-              </div>
-              <input
-                type="number"
-                id="cashClose"
-                name="cashClose"
-                className="mt-1 block w-full pl-8 pr-3 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-100 text-gray-800 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                placeholder="0.00"
-                step="0.01"
-                value={cashClose.toFixed(2)}
-                onChange={(e) => setCashClose(parseFloat(e.target.value))}
-              />
-            </div>
-          </div>
-        </div>
-        
-        <hr className={`mb-4 border-gray-300 dark:border-gray-600 ${!closeTime || cashClose === 0 ? 'hidden' : ''}`} />
-
-        <div className="flex justify-end space-x-3">
+    <Portal>
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg w-11/12 md:w-1/2 lg:w-1/3 relative">
           <button
-            onClick={handleSaveCloseCashier}
-            disabled={!closeTime || cashClose === 0}
-            className={`text-red-700 hover:text-red-700 dark:text-red-500 dark:hover:text-red-500 font-bold py-2 px-4 rounded ${!closeTime || cashClose === 0 ? 'hidden' : ''}`}
+            onClick={onClose}
+            className="absolute top-3 right-3 text-red-500 hover:text-red-700 dark:text-gray-400 dark:hover:text-red-500"
           >
-            Cerrar Caja
+            <FaTimes size={20} />
           </button>
+          
+          <h2 className="text-xl font-bold mb-4 dark:text-white">Cerrar Caja</h2>
+          <hr className="mb-4 border-gray-300 dark:border-gray-600" />
+          
+          <div className="flex space-x-4 mb-4">
+            <div className="w-full">
+              <label htmlFor="closeTime" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                Hora de Cierre
+              </label>
+              <input
+                  type="time"
+                  id="closeTime"
+                  name="closeTime"
+                  value={closeTime}
+                  onChange={(e) => setCloseTime(e.target.value)}
+                  className="mt-1 block w-full pl-2 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-100 text-gray-800 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300"
+              />
+            </div>
+            
+            <div className="w-full">
+              <label htmlFor="expenses" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                Gastos del Día
+              </label>
+              <div className="relative mt-1">
+                <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
+                  <span className="text-gray-500 sm:text-sm">
+                    {currencySymbol}
+                  </span>
+                </div>
+                <input
+                  type="number"
+                  id="expenses"
+                  name="expenses"
+                  className="mt-1 block w-full pl-8 pr-3 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-100 text-gray-800 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300"
+                  placeholder="0.00"
+                  step="0.01"
+                  value={expenses.toFixed(2)}
+                  readOnly
+                />
+              </div>
+            </div>
+          </div>
+          
+          <div className="flex space-x-4 mb-4">
+            <div className="w-full">
+              <label htmlFor="totalSales" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                Venta del Día
+              </label>
+              <div className="relative mt-1">
+                <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
+                  <span className="text-gray-500 sm:text-sm">
+                    {currencySymbol}
+                  </span>
+                </div>
+                <input
+                  type="number"
+                  id="totalSales"
+                  name="totalSales"
+                  className="mt-1 block w-full pl-8 pr-3 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-100 text-gray-800 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300"
+                  placeholder="0.00"
+                  step="0.01"
+                  value={totalSales.toFixed(2)}
+                  readOnly
+                />
+              </div>
+            </div>
+            
+            <div className="w-full">
+              <label htmlFor="utility" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                Utilidad del Día
+              </label>
+              <div className="relative mt-1">
+                  <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
+                    <span className="text-gray-500 sm:text-sm">
+                      {currencySymbol}
+                    </span>
+                  </div>
+                  <input
+                    type="number"
+                    id="utility"
+                    name="utility"
+                    className="mt-1 block w-full pl-8 pr-3 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-100 text-gray-800 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300"
+                  placeholder="0.00"
+                  step="0.01"
+                  value={utility.toFixed(2)}
+                  readOnly
+                />
+              </div>
+            </div>
+          </div>
+          <div className="flex space-x-4 mb-4">
+            <div className="w-full">
+              <label htmlFor="cashClose" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                Efectivo de Cierre
+              </label>
+              <div className="relative mt-1">
+                <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
+                  <span className="text-gray-500 sm:text-sm">
+                    {currencySymbol}
+                  </span>
+                </div>
+                <input
+                  type="number"
+                  id="cashClose"
+                  name="cashClose"
+                  className="mt-1 block w-full pl-8 pr-3 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-100 text-gray-800 dark:bg-gray-700 dark:border-gray-600 dark:text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  placeholder="0.00"
+                  step="0.01"
+                  value={cashClose === 0 ? '' : cashClose.toString()}
+                  onChange={(e) => setCashClose(e.target.value === '' ? 0 : parseFloat(e.target.value))}
+                />
+              </div>
+            </div>
+          </div>
+          
+          <hr className={`mb-4 border-gray-300 dark:border-gray-600 ${!closeTime || cashClose === 0 ? 'hidden' : ''}`} />
+
+          <div className="flex justify-end space-x-3">
+            <button
+              onClick={handleSaveCloseCashier}
+              disabled={!closeTime || cashClose === 0}
+              className={`text-red-600 hover:text-red-500 dark:text-red-700 dark:hover:text-red-500 font-bold py-2 px-4 rounded ${!closeTime || cashClose === 0 ? 'hidden' : ''}`}
+            >
+              Cerrar Caja
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    </Portal>
   );
 };
 
