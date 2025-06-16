@@ -6,8 +6,8 @@ import { IoMdBusiness } from 'react-icons/io';
 import { FaMapLocationDot, FaTreeCity } from 'react-icons/fa6';
 import { BiWorld, BiSolidBank } from 'react-icons/bi';
 import { MdOutlineEmail } from 'react-icons/md';
-
 import { BsCurrencyExchange, BsFillInfoCircleFill, BsCalendarDateFill } from 'react-icons/bs';
+import { HiColorSwatch } from 'react-icons/hi';
 import { FaUserGear, FaUserPlus } from 'react-icons/fa6';
 import { FaPhoneAlt, FaUpload } from 'react-icons/fa';
 import { useAuth } from '../hooks/useAuth';
@@ -48,6 +48,7 @@ const OptionsPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [phoneNumberPrefix, setPhoneNumberPrefix] = useState('');
+  const [sidebarHeaderColor, setSidebarHeaderColor] = useState('');
   
   // Employee config states
   const [isEmployeeConfigOpen, setIsEmployeeConfigOpen] = useState(false);
@@ -72,6 +73,7 @@ const OptionsPage: React.FC = () => {
         date_format: dateFormat || null,
         time_format: timeFormat || null,
         currency_format: currencyFormat || null,
+        sidebar_header_color: sidebarHeaderColor || null,
       };
 
       const { error } = await supabase
@@ -104,6 +106,10 @@ const OptionsPage: React.FC = () => {
 
   const handleDeleteReminder = (indexToDelete: number) => {
     setReminders(currentReminders => currentReminders.filter((_, index) => index !== indexToDelete));
+  };
+
+  const handleColorChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSidebarHeaderColor(e.target.value);
   };
 
   const [notificationType, setNotificationType] = useState('');
@@ -197,6 +203,7 @@ const OptionsPage: React.FC = () => {
         setBusinessName(data.name || '');
         setEmail(data.email || '');
         setAddress(data.address || '');
+        setSidebarHeaderColor(data.sidebar_header_color || '');
         setCity(data.city || '');
         setCountry(data.country || '');
         setBankAccount(data.bank_account || '');
@@ -1215,9 +1222,9 @@ const OptionsPage: React.FC = () => {
           onClick={toggleCustomizeApp}
           className="flex items-center justify-between w-full p-4 text-lg font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-t-lg"
         >
-          <div className="flex items-center">
-
-            <span>Personalizar App</span>
+          <div className="flex items-center gap-2">
+            <HiColorSwatch className='h-5 w-5' />
+            <h3 className='text-lg font-semibold'>Personalizar app</h3>
           </div>
             {isCustomizeAppOpen ? (
               <ChevronUp className="text-gray-600 dark:text-gray-400" />
@@ -1228,9 +1235,30 @@ const OptionsPage: React.FC = () => {
           {isCustomizeAppOpen && (
             <div className="p-4 border-t border-gray-200 dark:border-gray-700">
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                {/* App Theme Color Picker */}
-
-
+                {/* Color del Sidebar/Header */}
+                <div>
+                  <label htmlFor="sidebarHeaderColor" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Color del Sidebar/Header
+                  </label>
+                  <select
+                    id="sidebarHeaderColor"
+                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-200 dark:bg-gray-700 dark:border-gray-600 text-gray-900 dark:text-white pl-2 text-sm py-1"
+                    value={sidebarHeaderColor}
+                    onChange={handleColorChange}
+                  >
+                    <option value="">Seleccionar</option>
+                    <option value="#88304E">Quinacridone</option>
+                     <option value="#328E6E">Viridian</option>
+                     <option value="#52B2CF">Moonstone</option>
+                     <option value="#344CB7">Violet Blue</option>
+                     <option value="#70EE9C">Light Green</option>
+                     <option value="#54009DA">Chrysler Blue</option>
+                     <option value="#E3EEb2">Tiffany Blue</option>
+                     <option value="#00CFC1">Turquoise</option>
+                     <option value="#278783">Deep Aqua</option>
+                     <option value="#FC350B">Fiery Red</option>
+                  </select>
+                </div>
                 {/* Notification Type */} 
                 <div>
                   <label htmlFor="notificationType" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
