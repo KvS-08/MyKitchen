@@ -3,9 +3,11 @@ import { es } from 'date-fns/locale';
 import { ThemeToggle } from '../components/ui/ThemeToggle';
 import React, { useState } from 'react';
 import AddCategoriesModal from '../components/kitchen/AddCategoriesModal';
+import AddProductsModal from '../components/kitchen/AddProductsModal';
 
 const MenuPage: React.FC = () => {
   const [isAddCategoryModalOpen, setIsAddCategoryModalOpen] = useState(false);
+  const [isAddProductModalOpen, setIsAddProductModalOpen] = useState(false);
 
   const handleOpenAddCategoryModal = () => {
     setIsAddCategoryModalOpen(true);
@@ -13,6 +15,14 @@ const MenuPage: React.FC = () => {
 
   const handleCloseAddCategoryModal = () => {
     setIsAddCategoryModalOpen(false);
+  };
+
+  const handleOpenAddProductModal = () => {
+    setIsAddProductModalOpen(true);
+  };
+
+  const handleCloseAddProductModal = () => {
+    setIsAddProductModalOpen(false);
   };
 
   return (
@@ -37,7 +47,12 @@ const MenuPage: React.FC = () => {
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-bold">Menú</h2>
         <div className="flex space-x-2">
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1.5 px-1 rounded text-xs md:py-1 md:px-2 md:text-sm">Agregar Producto</button>
+          <button
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1.5 px-1 rounded text-xs md:py-1 md:px-2 md:text-sm"
+            onClick={handleOpenAddProductModal}
+          >
+            Agregar Producto
+          </button>
           <button
             className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-1.5 px-1 rounded text-xs md:py-1 md:px-2 md:text-sm"
             onClick={handleOpenAddCategoryModal}
@@ -53,6 +68,11 @@ const MenuPage: React.FC = () => {
       <AddCategoriesModal
         isOpen={isAddCategoryModalOpen}
         onClose={handleCloseAddCategoryModal}
+      />
+      {/* AddProductsModal will be rendered here */}
+      <AddProductsModal
+        isOpen={isAddProductModalOpen}
+        onClose={handleCloseAddProductModal}
       />
     </div>
   );
